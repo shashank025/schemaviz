@@ -3,6 +3,26 @@ schemaviz
 
 Visually represent every table in your database schema, and the foreign key relationships (and more) between these tables, using [d3.js](http://d3js.org/ "d3.js home page").
 
+0. If You're in A Hurry
+-----------------------
+
+The quickest way to get things up and running is to clone this repository, and start an HTTP server in the repository directory:
+
+```
+$ mkdir -p schemaviz && cd schemaviz
+$ git clone https://github.com/shashank025/schemaviz.git
+$ python -m SimpleHTTPServer 5009 &
+```
+
+You can then access the visualization with the default schema by pointing your browser at the following url:
+
+```
+http://localhost:5009/index.html
+```
+
+The `index.html` suffix is optional, of course. You can modify any parameters of your visualization by editing [viz.js](viz.js) directly.
+
+
 We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:
 
 ```
@@ -11,8 +31,8 @@ We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/F
 
 You can see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
 
-1. Collect Schema Information
------------------------------
+HOWTO
+-----
 
 Use the provided [schema.csv](schema.csv) file to tell schemaviz what your schema looks like. This file should contain comma-separated records of the form:
 
@@ -47,19 +67,4 @@ $ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -qX > schema.csv
 
 TODO
 
-2. Initialize visualization
----------------------------
-
-The simplest way to get things up and running is to start a HTTP server in this directory. Running the following command:
-
-```
-$ python -m SimpleHTTPServer 5009 &
-```
-
-will start up a HTTP server from which you can access the visualization by pointing your browser at the following url:
-
-```
-http://localhost:5009/index.html
-```
-
-Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing [viz.js](viz.js) directly.
+Once you populate schema.csv to your satisfaction, you can follow the steps described above to start an HTTP server that visualizes your schema.
