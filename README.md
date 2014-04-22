@@ -62,4 +62,4 @@ will start up a HTTP server from which you can access the visualization by point
 http://localhost:5009/index.html
 ```
 
-Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing [index.html](index.html) directly.
+Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing [viz.js](viz.js) directly.
