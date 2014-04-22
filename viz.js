@@ -14,14 +14,14 @@ links.forEach(function(link) {
     }
 });
 
-var width = 1200,
-    height = 600;
+var width = 600,
+    height = 400;
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(links)
     .size([width, height])
-    .linkDistance(80)
+    .linkDistance(50)
     .charge(-500)
     .gravity(.20)
     .on("tick", tick)
