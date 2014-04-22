@@ -16,7 +16,7 @@ In order for schemaviz to do its thing, you need to tell it what your schema loo
 
     source,target
 
-meaning that some columns in table `source` refer to some columns in table `target`. The exact mechanism for populating schema.csv depends on the database system you are using.
+meaning that some columns in table `source` refer to some columns in table `target`. Note that the `target` column can be `NULL`, since there can exist tables that don't refer to other tables. But the `source` column will always be non-null. The exact mechanism for populating schema.csv depends on the database system you are using.
 
 ### 1.1 postgres
 
