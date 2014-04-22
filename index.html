@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Schemaviz by shashank025</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Schemaviz</h1>
+        <p>Visualize foreign key relationships (and more) between the tables in your database schema using d3.js</p>
+
+        <p class="view"><a href="https://github.com/shashank025/schemaviz">View the Project on GitHub <small>shashank025/schemaviz</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/shashank025/schemaviz/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/shashank025/schemaviz/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/shashank025/schemaviz">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="schemaviz" class="anchor" href="#schemaviz"><span class="octicon octicon-link"></span></a>schemaviz</h1>
+
+<p>Visualize foreign key relationships (and more) between the tables in your database schema using <a href="http://d3js.org/" title="d3.js home page">d3.js</a>.</p>
+
+<p>We use d3's <a href="https://github.com/mbostock/d3/wiki/Force-Layout">force directed layout scheme</a> to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:</p>
+
+<pre><code>A ---&gt; B
+</code></pre>
+
+<h2>
+<a name="1-collect-schema-information" class="anchor" href="#1-collect-schema-information"><span class="octicon octicon-link"></span></a>1. Collect Schema Information</h2>
+
+<p>In order for schemaviz to do its thing, you need to tell it what your schema looks like. Use the provided <a href="schema.csv">schema.csv</a> file for this purpose. This file should contain comma-separated records of the form:</p>
+
+<pre><code>source,target
+</code></pre>
+
+<p>meaning that some columns in table <code>source</code> refer to some columns in table <code>target</code>. Note that the <code>target</code> column can be <code>NULL</code>, since there can exist tables that don't refer to other tables. But the <code>source</code> column will always be non-null. The exact mechanism for populating schema.csv depends on the database system you are using.</p>
+
+<h3>
+<a name="11-postgres" class="anchor" href="#11-postgres"><span class="octicon octicon-link"></span></a>1.1 postgres</h3>
+
+<p>We assume that the tables you are interested in reside in the <code>public</code> schema of your postgres database. Roughly speaking, the following query returns the list of tables in the public schema, along with the tables that each of these tables refers to:</p>
+
+<div class="highlight highlight-sql"><pre>
+    <span class="k">SELECT</span>
+        <span class="n">c1</span><span class="p">.</span><span class="n">relname</span> <span class="k">AS</span> <span class="k">source</span><span class="p">,</span> <span class="n">c2</span><span class="p">.</span><span class="n">relname</span> <span class="k">AS</span> <span class="n">target</span>
+      <span class="k">FROM</span> <span class="n">pg_class</span> <span class="n">c1</span>
+      <span class="k">JOIN</span> <span class="n">pg_namespace</span> <span class="n">n</span> <span class="k">ON</span> <span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">oid</span> <span class="o">=</span> <span class="n">c1</span><span class="p">.</span><span class="n">relnamespace</span><span class="p">)</span>
+      <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">pg_constraint</span> <span class="n">s</span> <span class="k">ON</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">conrelid</span> <span class="o">=</span> <span class="n">c1</span><span class="p">.</span><span class="n">oid</span> <span class="k">and</span> <span class="n">s</span><span class="p">.</span><span class="n">contype</span> <span class="o">=</span> <span class="s1">'f'</span><span class="p">)</span>
+      <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">pg_class</span> <span class="n">c2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">c2</span><span class="p">.</span><span class="n">oid</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">confrelid</span><span class="p">)</span>
+     <span class="k">WHERE</span> <span class="n">c1</span><span class="p">.</span><span class="n">relkind</span> <span class="o">=</span> <span class="s1">'r'</span>
+       <span class="k">AND</span> <span class="n">n</span><span class="p">.</span><span class="n">nspname</span> <span class="o">=</span> <span class="s1">'public'</span>
+</pre></div>
+
+<p>In conjunction with the <code>\copy</code> command, this can be used to easily populate the schema csv file. For your convenience, this library includes a file <a href="pgschema.sql">pgschema.sql</a> which does exactly this.  Run the following <code>psql</code> command in this directory to populate <a href="schema.csv">schema.csv</a> from a postgres database of your choice:</p>
+
+<pre><code>$ psql "dbname=xxx host=xxx.com user=xxx password=xxx port=xxx ..." -f pgschema.sql
+</code></pre>
+
+<h3>
+<a name="12-mysql" class="anchor" href="#12-mysql"><span class="octicon octicon-link"></span></a>1.2 mysql</h3>
+
+<p>TODO</p>
+
+<h2>
+<a name="2-initialize-visualization" class="anchor" href="#2-initialize-visualization"><span class="octicon octicon-link"></span></a>2. Initialize visualization</h2>
+
+<p>The simplest way to get things up and running is to start a HTTP server in this directory. Running the following command:</p>
+
+<pre><code>$ python -m SimpleHTTPServer 5009 &amp;
+</code></pre>
+
+<p>will start up a HTTP server from which you can access the visualization by pointing your browser at the following url:</p>
+
+<pre><code> http://localhost:5009/index.html
+</code></pre>
+
+<p>Note that the <code>index.html</code> suffix is optional. You can modify any parameters of your visualization by editing <a href="index.html">index.html</a> directly.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/shashank025">shashank025</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
