@@ -29,7 +29,10 @@ var force = d3.layout.force()
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("fill", "none")
+    .attr("stroke", "grey")
+    .attr("stroke-width", 2);
 
 // build the arrow.
 svg.append("svg:defs").selectAll("marker")
