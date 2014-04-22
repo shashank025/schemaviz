@@ -7,7 +7,8 @@ We use d3's force directed layout schema to produce an SVG image where each rela
 
     A -> B ==> Some columns in table A refer to some columns in table B.
 
-#H2 1. Collect Schema Information
+1. Collect Schema Information
+-----------------------------
 
 In order for schemaviz to do its thing, you need to tell schemaviz what your schema looks like. Use the provided [schema.csv](schema.csv) file for this purpose. This file should contain comma-separated records of the form:
 
@@ -39,7 +40,8 @@ In conjunction with the `\copy` command, this can be used to easily populate the
 
 TODO
 
-#H2 2. Initialize visualization
+2. Initialize visualization
+---------------------------
 
 The simplest way to get things up and running is to start a HTTP server in this directory. Running the following command:
 
