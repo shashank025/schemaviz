@@ -16,8 +16,9 @@ You can see an example at the [Schemaviz Github project page](http://shashank025
 
 In order for schemaviz to do its thing, you need to tell it what your schema looks like. Use the provided [schema.csv](schema.csv) file for this purpose. This file should contain comma-separated records of the form:
 
-    source,target
-
+```
+source,target
+```
 meaning that some columns in table `source` refer to some columns in table `target` via a [foreign key constraint](http://en.wikipedia.org/wiki/Foreign_key). Note that the `target` column can be `NULL`, since there can exist tables that don't refer to other tables. But the `source` column will always be non-null. The exact mechanism for populating schema.csv depends on the database system you are using.
 
 ### 1.1 postgres
@@ -39,7 +40,7 @@ We assume that the tables you are interested in reside in the `public` schema of
 In conjunction with the `\copy` command, this can be used to easily populate the schema csv file. For your convenience, this library includes a file [pgschema.sql](pgschema.sql) which does exactly this.  Run the following `psql` command in this directory to populate [schema.csv](schema.csv) from a postgres database of your choice:
 
 ```
-    psql "dbname=xxx host=xxx.com user=xxx password=xxx port=xxx ..." -f pgschema.sql
+$ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -q > schema.csv
 ```
 
 ### 1.2 mysql
@@ -51,10 +52,14 @@ TODO
 
 The simplest way to get things up and running is to start a HTTP server in this directory. Running the following command:
 
-     python -m SimpleHTTPServer 5009 &
+```
+$ python -m SimpleHTTPServer 5009 &
+```
 
 will start up a HTTP server from which you can access the visualization by pointing your browser at the following url:
 
-     http://localhost:5009/index.html
+```
+http://localhost:5009/index.html
+```
 
 Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing [index.html](index.html) directly.
