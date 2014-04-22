@@ -31,8 +31,8 @@ We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/F
 
 You can see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
 
-HOWTO
------
+1. HOWTO
+--------
 
 Use the provided [schema.csv](schema.csv) file to tell schemaviz what your schema looks like. This file should contain comma-separated records of the form:
 
