@@ -1,11 +1,13 @@
 schemaviz
 =========
 
-Visualize foreign key relationships (and more) between the tables in your database schema using d3.js.
+Visualize foreign key relationships (and more) between the tables in your database schema using [d3.js](http://d3js.org/ "d3.js home page").
 
-We use d3's force directed layout schema to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some column(s) in A refer(s) to some column(s) in B:
+We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some column(s) in A refer(s) to some column(s) in B:
 
+```
     A -> B ==> Some columns in table A refer to some columns in table B.
+```
 
 1. Collect Schema Information
 -----------------------------
@@ -16,7 +18,7 @@ In order for schemaviz to do its thing, you need to tell schemaviz what your sch
 
 with the semantic that some columns in table `source` refer to some columns in table `target`. The exact mechanism for populating schema.csv depends on the database system you are using.
 
-#H3 postgres
+### postgres
 
 We assume that the tables you are interested in reside in the `public` schema of your postgres database. Roughly speaking, the following query returns the list of tables in the public schema, along with the tables that each of these tables refers to:
 
@@ -32,11 +34,13 @@ We assume that the tables you are interested in reside in the `public` schema of
        AND n.nspname = 'public'
 ```
 
-In conjunction with the `\copy` command, this can be used to easily populate the schema command. Run the following `psql` command in this directory to populate schema.csv from a postgres database of your choice:
+In conjunction with the `\copy` command, this can be used to easily populate the schema csv file. For your convenience, this library includes a `psql` command file [pgschema.sql](pgschema.sql) which does exactly this.  Run the following `psql` command in this directory to populate [schema.csv](schema.csv) from a postgres database of your choice:
 
+```
     psql "dbname=xxx host=xxx.com user=xxx password=xxx port=xxx ..." -f pgschema.sql
+```
 
-#H3 mysql
+### mysql
 
 TODO
 
@@ -51,5 +55,4 @@ will start up a HTTP server from which you can access the visualization by point
 
      http://localhost:5009/index.html
 
-Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing `index.html` directly.
-
+Note that the `index.html` suffix is optional. You can modify any parameters of your visualization by editing [index.html](index.html) directly.
