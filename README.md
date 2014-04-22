@@ -3,22 +3,22 @@ schemaviz
 
 Visualize foreign key relationships (and more) between the tables in your database schema using [d3.js](http://d3js.org/ "d3.js home page").
 
-We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some column(s) in A refer(s) to some column(s) in B:
+We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:
 
 ```
-    A -> B ==> Some columns in table A refer to some columns in table B.
+    A ---> B
 ```
 
 1. Collect Schema Information
 -----------------------------
 
-In order for schemaviz to do its thing, you need to tell schemaviz what your schema looks like. Use the provided [schema.csv](schema.csv) file for this purpose. This file should contain comma-separated records of the form:
+In order for schemaviz to do its thing, you need to tell it what your schema looks like. Use the provided [schema.csv](schema.csv) file for this purpose. This file should contain comma-separated records of the form:
 
     source,target
 
-with the semantic that some columns in table `source` refer to some columns in table `target`. The exact mechanism for populating schema.csv depends on the database system you are using.
+meaning that some columns in table `source` refer to some columns in table `target`. The exact mechanism for populating schema.csv depends on the database system you are using.
 
-### postgres
+### 1.1 postgres
 
 We assume that the tables you are interested in reside in the `public` schema of your postgres database. Roughly speaking, the following query returns the list of tables in the public schema, along with the tables that each of these tables refers to:
 
@@ -34,13 +34,13 @@ We assume that the tables you are interested in reside in the `public` schema of
        AND n.nspname = 'public'
 ```
 
-In conjunction with the `\copy` command, this can be used to easily populate the schema csv file. For your convenience, this library includes a `psql` command file [pgschema.sql](pgschema.sql) which does exactly this.  Run the following `psql` command in this directory to populate [schema.csv](schema.csv) from a postgres database of your choice:
+In conjunction with the `\copy` command, this can be used to easily populate the schema csv file. For your convenience, this library includes a file [pgschema.sql](pgschema.sql) which does exactly this.  Run the following `psql` command in this directory to populate [schema.csv](schema.csv) from a postgres database of your choice:
 
 ```
     psql "dbname=xxx host=xxx.com user=xxx password=xxx port=xxx ..." -f pgschema.sql
 ```
 
-### mysql
+### 1.2 mysql
 
 TODO
 
