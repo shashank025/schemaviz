@@ -1,4 +1,3 @@
-\timing off
 COPY (
     SELECT
         c1.relname AS source, c2.relname AS target

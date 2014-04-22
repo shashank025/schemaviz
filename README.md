@@ -40,7 +40,7 @@ We assume that the tables you are interested in reside in the `public` schema of
 In conjunction with the `\copy` command, this can be used to easily populate the schema csv file. For your convenience, this library includes a file, [pgschema.sql](pgschema.sql), which does exactly this.  Run the following `psql` command in this directory to populate [schema.csv](schema.csv) from a postgres database of your choice:
 
 ```
-$ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -q > schema.csv
+$ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -qX > schema.csv
 ```
 
 ### 1.2 mysql
