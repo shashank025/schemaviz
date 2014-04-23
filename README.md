@@ -22,6 +22,10 @@ http://localhost:5009/index.html
 
 The `index.html` suffix is optional, of course. You can modify any parameters of your visualization by editing [viz.js](viz.js) directly.
 
+You can also see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
+
+1. HOWTO
+--------
 
 We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:
 
@@ -29,10 +33,6 @@ We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/F
     A ---> B
 ```
 
-You can see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
-
-1. HOWTO
---------
 
 Use the provided [schema.csv](schema.csv) file to tell schemaviz what your schema looks like. This file should contain comma-separated records of the form:
 
@@ -68,3 +68,14 @@ $ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -qX > schema.csv
 TODO
 
 Once you populate schema.csv to your satisfaction, you can follow the steps described above to start an HTTP server that visualizes your schema.
+
+
+2. Improvements (for large graphs)
+---------------
+
+A good visualization is particularly useful when the underlying database schema is pretty large (1000+ tables). But it is not straightforward to render the force directed layout for a graph that large. Here are some ideas to make the visualization more useful:
+
+1. Ability to search for and highlight a given table in the schema.
+1. Expose the parameters of the force directed layout: `height`, `width`, `linkDistance`, `charge`, `gravity`, etc.
+1. Vertical/horizontal scrolling through the rendered SVG.
+1. [Fisheye distortion](http://bost.ocks.org/mike/fisheye/) to focus on a particular area of the graph.
