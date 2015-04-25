@@ -19,8 +19,8 @@ d3.csv("schema.csv", function(error, records) {
     });
 
     // bounding box for the svg container
-    var width = 250,
-    height = 250;
+    var width = 400,
+    height = 400;
 
     // circle radii
     var min_r = 5,
