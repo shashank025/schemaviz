@@ -1,17 +1,20 @@
 // get the data
-d3.csv("schema.csv", function(error, links) {
+d3.csv("schema.csv", function(error, records) {
 
     var nodes = {};
+    var links = [];
 
     // Compute the distinct nodes from the links.
-    links.forEach(function(link) {
-        // link.source is guaranteed to be non-null
-        nodes[link.source] || (nodes[link.source] = {name: link.source, edges: 0});
-        if (link.target) {
-            link.source = nodes[link.source];
-            link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, edges: 0});
+    records.forEach(function(record) {
+        // record.source is guaranteed to be non-null
+        nodes[record.source] || (nodes[record.source] = {name: record.source, edges: 0});
+        if (record.target) {
+            var link = {}
+            link.source = nodes[record.source];
+            link.target = nodes[record.target] || (nodes[record.target] = {name: record.target, edges: 0});
             link.source.edges += 1;
             link.target.edges += 1;
+            links.push(link);
         }
     });
 
