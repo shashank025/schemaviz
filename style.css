@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 path.link {
   fill: none;
   stroke: #666;

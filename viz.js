@@ -22,8 +22,8 @@ d3.csv("schema.csv", function(error, records) {
     });
 
     // bounding box for the svg container
-    var width = 2500,
-    height = 2500;
+    var width = 1500,
+    height = 1500;
 
     // circle radii
     var min_r = 5,
@@ -33,13 +33,13 @@ d3.csv("schema.csv", function(error, records) {
         .nodes(d3.values(nodes))
         .links(links)
         .size([width, height])
-        .linkDistance(80)
-        .charge(-500)
-        .gravity(.20)
+        .linkDistance(200)
+        .charge(-1000)
+        .gravity(.25)
         .on("tick", tick)
         .start();
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("div").append("svg")
         .attr("width", width)
         .attr("height", height);
 
