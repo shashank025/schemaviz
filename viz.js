@@ -1,6 +1,9 @@
 // get the data
 d3.csv("schema.csv", function(error, records) {
 
+    // to avoid divide by zero errors, etc.
+    var epsilon = .000001;
+
     var nodes = {};
     var links = [];
 
@@ -88,7 +91,7 @@ d3.csv("schema.csv", function(error, records) {
             dy = d.target.y - d.source.y,
             dr = Math.sqrt(dx * dx + dy * dy);
             var n = rscale(d.target.edges),   // radius of target circle
-            k = n / dr;                   // multiplier
+            k = n / (dr + epsilon);           // multiplier
             var x2 = (1 - k) * d.target.x + k * d.source.x;
             var y2 = (1 - k) * d.target.y + k * d.source.y;
             return "M" + 
