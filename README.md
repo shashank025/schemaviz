@@ -3,8 +3,7 @@ schemaviz
 
 Visually represent every table in your database schema, and the foreign key relationships (and more) between these tables, using [d3.js](http://d3js.org/ "d3.js home page").
 
-0. If You're in A Hurry
-======
+# 0. If You're in A Hurry
 
 The quickest way to get things up and running is to clone this repository, and start an HTTP server in the repository directory:
 
@@ -24,8 +23,7 @@ The `index.html` suffix is optional, of course. You can modify any parameters of
 
 You can also see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
 
-1. HOWTO
-======
+# 1. HOWTO
 
 We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:
 
@@ -41,7 +39,7 @@ source,target
 ```
 meaning that some columns in table `source` refer to some columns in table `target` via a [foreign key constraint](http://en.wikipedia.org/wiki/Foreign_key). Note that the `target` column can be `NULL`, since there can exist tables that don't refer to other tables. But the `source` column will always be non-null. The exact mechanism for populating schema.csv depends on the database system you are using.
 
-### 1.1 postgres
+## 1.1 postgres
 
 We assume that the tables you are interested in reside in the `public` schema of your postgres database. Roughly speaking, the following query returns the list of tables in the public schema, along with the tables that each of these tables refers to:
 
@@ -63,15 +61,14 @@ In conjunction with the `\copy` command, this can be used to easily populate the
 $ psql "dbname=xxx host=xxx.com ..." -f pgschema.sql -qX > schema.csv
 ```
 
-### 1.2 mysql
+## 1.2 mysql
 
 TODO
 
 Once you populate schema.csv to your satisfaction, you can follow the steps described above to start an HTTP server that visualizes your schema.
 
 
-2. Improvements (for large graphs)
-======
+# 2. Improvements (for large graphs)
 
 A good visualization is particularly useful when the underlying database schema is pretty large (1000+ tables). But it is not straightforward to render the force directed layout for a graph that large. Here are some ideas to make the visualization more useful:
 
