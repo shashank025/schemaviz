@@ -4,7 +4,7 @@ schemaviz
 Visually represent every table in your database schema, and the foreign key relationships (and more) between these tables, using [d3.js](http://d3js.org/ "d3.js home page").
 
 0. If You're in A Hurry
------------------------
+======
 
 The quickest way to get things up and running is to clone this repository, and start an HTTP server in the repository directory:
 
@@ -25,7 +25,7 @@ The `index.html` suffix is optional, of course. You can modify any parameters of
 You can also see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
 
 1. HOWTO
---------
+======
 
 We use d3's [force directed layout scheme](https://github.com/mbostock/d3/wiki/Force-Layout) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B:
 
@@ -71,7 +71,7 @@ Once you populate schema.csv to your satisfaction, you can follow the steps desc
 
 
 2. Improvements (for large graphs)
----------------
+======
 
 A good visualization is particularly useful when the underlying database schema is pretty large (1000+ tables). But it is not straightforward to render the force directed layout for a graph that large. Here are some ideas to make the visualization more useful:
 
