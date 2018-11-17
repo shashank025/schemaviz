@@ -21,6 +21,15 @@ d3.csv("schema.csv", function(error, records) {
         }
     });
 
+
+    function dblclick(d) {
+        d3.select(this).classed("fixed", d.fixed = false);
+    }
+
+    function dragstart(d) {
+        d3.select(this).classed("fixed", d.fixed = true);
+    }
+
     // bounding box for the svg container
     var width = 1500,
     height = 1500;
@@ -54,7 +63,8 @@ d3.csv("schema.csv", function(error, records) {
         .attr("markerHeight", 6)
         .attr("orient", "auto")
         .append("svg:path")
-        .attr("d", "M0,0 L0,6 L6,3 Z");
+        .attr("d", "M0,0 L0,6 L6,3 Z")
+        .on("dblclick", dblclick);
 
     // add the links and the arrows
     var path = svg.append("svg:g").selectAll("path")
@@ -63,12 +73,15 @@ d3.csv("schema.csv", function(error, records) {
         .attr("class", "link")
         .attr("marker-end", "url(#end)");
 
+    var drag = force.drag()
+        .on("dragstart", dragstart);
+
     // define the nodes
     var node = svg.selectAll(".node")
         .data(force.nodes())
         .enter().append("g")
         .attr("class", "node")
-        .call(force.drag);
+        .call(drag);
 
     var rscale = d3.scale.linear()
         .domain([0, d3.max( force.nodes(), function(d) { return d.edges; } )])
