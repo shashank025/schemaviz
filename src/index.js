@@ -2,7 +2,11 @@ const dog = 'Naayi';
 
 document
   .querySelector('#myBtn')
-  .addEventListener('click', function(event) {
-    // testing out ES6 string interpolation
-    console.log(`${dog} says: Button Clicked!`);
-  });
+  .addEventListener(
+    'click',
+    // eslint-disable-next-line no-unused-vars
+    (e) => {
+      // eslint-disable-next-line no-console
+      console.log(`${dog} says: Button Clicked!`);
+    },
+  );
