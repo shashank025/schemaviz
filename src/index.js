@@ -1,5 +1,8 @@
+const dog = 'Naayi';
+
 document
   .querySelector('#myBtn')
   .addEventListener('click', function(event) {
-    console.log('Button Clicked!');
+    // testing out ES6 string interpolation
+    console.log(`${dog} says: Button Clicked!`);
   });
