@@ -5,32 +5,21 @@ Visually represent every table in your database schema, and the foreign key rela
 
 # 0. If You're in A Hurry
 
+**Prerequisite:** **Yarn** (installation instructions)
+
 The quickest way to get things up and running is to clone this repository, and start an HTTP server in the repository directory:
 
 ```
 $ git clone https://github.com/shashank025/schemaviz.git
 $ cd schemaviz/
+$ yarn start
 ```
 
-Python 2:
+You can access the visualization with the provided default schema by pointing your browser at the following url:
 
 ```
-$ python -m SimpleHTTPServer 5009 &
+http://localhost:8080/
 ```
-
-Python 3:
-
-```
-$ python3 -m http.server 5009
-```
-
-You can then access the visualization with the default schema by pointing your browser at the following url:
-
-```
-http://localhost:5009/index.html
-```
-
-The `index.html` suffix is optional, of course. You can modify any parameters of your visualization by editing [viz.js](viz.js) directly.
 
 You can also see an example at the [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
 
