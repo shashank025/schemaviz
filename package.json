@@ -17,11 +17,6 @@
     "url": "https://github.com/shashank025/schemaviz/issues"
   },
   "homepage": "https://github.com/shashank025/schemaviz",
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
-  },
   "devDependencies": {
     "@babel/core": "^7.14.2",
     "@babel/preset-env": "^7.14.2",
