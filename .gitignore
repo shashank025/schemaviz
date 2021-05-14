@@ -1,3 +1,9 @@
+# Emacs backup files
+*~
+
+# Node files
+node_modules/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -11,7 +17,6 @@ env/
 bin/
 build/
 develop-eggs/
-dist/
 eggs/
 lib/
 lib64/
@@ -51,4 +56,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-

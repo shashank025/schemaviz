@@ -8,9 +8,20 @@ Visually represent every table in your database schema, and the foreign key rela
 The quickest way to get things up and running is to clone this repository, and start an HTTP server in the repository directory:
 
 ```
-$ mkdir -p schemaviz && cd schemaviz
 $ git clone https://github.com/shashank025/schemaviz.git
+$ cd schemaviz/
+```
+
+Python 2:
+
+```
 $ python -m SimpleHTTPServer 5009 &
+```
+
+Python 3:
+
+```
+$ python3 -m http.server 5009
 ```
 
 You can then access the visualization with the default schema by pointing your browser at the following url:

@@ -1,0 +1,25 @@
+{
+  "name": "schemaviz",
+  "version": "1.0.0",
+  "description": "Web/JS Dependencies to visualize your schema",
+  "scripts": {
+    "start": "webpack serve --config ./webpack.config.js --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shashank025/schemaviz.git"
+  },
+  "keywords": [],
+  "author": "Shashank R",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shashank025/schemaviz/issues"
+  },
+  "homepage": "https://github.com/shashank025/schemaviz",
+  "devDependencies": {
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
