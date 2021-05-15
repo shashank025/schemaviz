@@ -3,6 +3,8 @@
 
 # Node files
 node_modules/
+# Ignore the Webpack output file
+dist/bundle.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
