@@ -17,22 +17,19 @@ const parse = (records) => {
         edges: 0,
       };
     }
-    if (target) {
-      if (!nodes[target]) {
-        nodes[target] = {
-          name: target,
-          edges: 0,
-        };
-      }
-      // create link
-      const link = {
-        source: nodes[source],
-        target: nodes[target],
-      };
-      link.source.edges += 1;
-      link.target.edges += 1;
-      links.push(link);
+    if (!target) {
+      return;
     }
+    if (!nodes[target]) {
+      nodes[target] = {
+        name: target,
+        edges: 0,
+      };
+    }
+    links.push(record);
+    // increment edge count on both source and target nodes
+    nodes[source].edges += 1;
+    nodes[target].edges += 1;
   });
   return {
     nodes: Object.values(nodes),

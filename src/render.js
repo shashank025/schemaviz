@@ -1,10 +1,8 @@
 import * as d3 from 'd3';
 
-// avoid divide-by-zero errors
-const EPSILON = 0.000001;
 // render area dimensions
-const WIDTH = 1500;
-const HEIGHT = 1500;
+const WIDTH = 200;
+const HEIGHT = 200;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
@@ -17,23 +15,23 @@ class SchemaRenderer {
 
   render() {
     const simulation = d3.forceSimulation(this.nodes)
-      .force('link', d3.forceLink(this.links).id(d => d.name))
+      .force('link', d3.forceLink(this.links).id((d) => d.name))
       .force('charge', d3.forceManyBody().strength(-400))
       .force('x', d3.forceX())
       .force('y', d3.forceY());
 
     const svg = d3.select('#svg')
+      .append('svg')
       .style('font', '12px sans-serif')
-      .attr('width', WIDTH)
-      .attr('height', HEIGHT);
+      .attr('viewBox', [-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT]);
 
     // build the arrow.
     svg.append('svg:defs').selectAll('marker')
       .data(['end'])
-      .enter().append('svg:marker')
+      .join('svg:marker')
       .attr('id', String)
-      .attr('refX', 5)
-      .attr('refY', 3)
+      .attr('refX', 15)
+      .attr('refY', -0.5)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
       .attr('orient', 'auto')
@@ -41,16 +39,18 @@ class SchemaRenderer {
       .attr('d', 'M0,0 L0,6 L6,3 Z');
 
     // add the links and the arrows
-    const path = svg.append('svg:g').selectAll('path')
+    const path = svg.append('svg:g')
+      .selectAll('path')
       .data(this.links)
-      .enter().append('svg:path')
+      .join('svg:path')
       .attr('class', 'link')
       .attr('marker-end', 'url(#end)');
 
     const node = svg.selectAll('.node')
       .data(this.nodes)
-      .enter().append('g')
+      .join('g')
       .attr('class', 'node')
+      // eslint-disable-next-line no-use-before-define
       .call(drag(simulation));
 
     const rscale = d3.scaleLinear()
@@ -71,14 +71,8 @@ class SchemaRenderer {
       'tick',
       () => {
         path.attr('d', (d) => {
-          const dx = d.target.x - d.source.x;
-          const dy = d.target.y - d.source.y;
-          const dr = Math.sqrt(dx * dx + dy * dy);
-          const n = rscale(d.target.edges); // radius of target circle
-          const k = n / (dr + EPSILON); // multiplier
-          const x2 = (1 - k) * d.target.x + k * d.source.x;
-          const y2 = (1 - k) * d.target.y + k * d.source.y;
-          return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${x2},${y2}`;
+          const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+          return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${d.target.x},${d.target.y}`;
         });
 
         node.attr('transform', (d) => `translate(${d.x}, ${d.y})`);

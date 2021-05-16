@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html height="100%">
+<html>
   <head>
-    <title>Hello Webpack</title>
+    <link rel="stylesheet" href="./style.css">
+    <title>Visualize your Database Schema</title>
   </head>
-  <body height="100%">
-    <div>
-      <h1>Hello Webpack</h1>
-      <button id="myBtn">Click Me!</button>
-      <div id="svg" height="100%" />
+  <body>
+    <h1>Visualize your Database Schema</h1>
+    <button id="myBtn" style="margin: 1em;">
+      Visualize!
+    </button>
+    <div
+      id="svg"
+      style="border: solid 1px gray; margin: 1em;">
     </div>
     <script src="./bundle.js"></script>
   </body>
