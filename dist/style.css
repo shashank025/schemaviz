@@ -1,25 +1,39 @@
-html, body {
-  height: 100%;
-}
-
 path.link {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1.5px;
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
 }
 
 circle {
-  fill: #ccc;
-  stroke: #111;
-  stroke-width: 1.5px;
+    fill: #ccc;
+    stroke: #111;
+    stroke-width: 1.5px;
 }
 
 text {
-  fill: #000;
-  font: 12px sans-serif;
-  pointer-events: none;
+    fill: #000;
+    font: 12px sans-serif;
+    pointer-events: none;
 }
 
 h1 {
-  font: 36px sans-serif;
+    font: 36px sans-serif;
+}
+
+.svg-container {
+    border: solid 1px gray;
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 100%;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.svg-content {
+    font: 12px sans-serif;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
 }

@@ -1,8 +1,10 @@
 import * as d3 from 'd3';
 
+// avoid divide-by-zero errors
+const EPSILON = 0.000001;
 // render area dimensions
-const WIDTH = 200;
-const HEIGHT = 200;
+const WIDTH = 800
+const HEIGHT = 400;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
@@ -22,16 +24,17 @@ class SchemaRenderer {
 
     const svg = d3.select('#svg')
       .append('svg')
-      .style('font', '12px sans-serif')
-      .attr('viewBox', [-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT]);
+      .attr('viewbox', [0, 0, WIDTH, HEIGHT])
+      .attr('preserveAspectRatio', 'xMinYMin')
+      .attr('class', 'svg-content');
 
     // build the arrow.
     svg.append('svg:defs').selectAll('marker')
       .data(['end'])
       .join('svg:marker')
       .attr('id', String)
-      .attr('refX', 15)
-      .attr('refY', -0.5)
+      .attr('refX', 5)
+      .attr('refY', 3)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
       .attr('orient', 'auto')
@@ -72,7 +75,11 @@ class SchemaRenderer {
       () => {
         path.attr('d', (d) => {
           const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
-          return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${d.target.x},${d.target.y}`;
+          const n = rscale(d.target.edges); // radius of target circle
+          const k = n / (r + EPSILON); // multiplier
+          const x2 = (1 - k) * d.target.x + k * d.source.x;
+          const y2 = (1 - k) * d.target.y + k * d.source.y;
+          return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${x2},${y2}`;
         });
 
         node.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
