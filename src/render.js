@@ -2,9 +2,6 @@ import * as d3 from 'd3';
 
 // avoid divide-by-zero errors
 const EPSILON = 0.000001;
-// render area dimensions
-const WIDTH = 800
-const HEIGHT = 400;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
@@ -18,14 +15,10 @@ class SchemaRenderer {
   render() {
     const simulation = d3.forceSimulation(this.nodes)
       .force('link', d3.forceLink(this.links).id((d) => d.name))
-      .force('charge', d3.forceManyBody().strength(-400))
-      .force('x', d3.forceX())
-      .force('y', d3.forceY());
+      .force('charge', d3.forceManyBody().strength(-200));
 
     const svg = d3.select('#svg')
       .append('svg')
-      .attr('viewbox', [0, 0, WIDTH, HEIGHT])
-      .attr('preserveAspectRatio', 'xMinYMin')
       .attr('class', 'svg-content');
 
     // build the arrow.
