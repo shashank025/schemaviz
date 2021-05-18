@@ -7,10 +7,14 @@ relationships (and more) between these tables, using
 
 # 0. If You're in A Hurry
 
-**Prerequisite:** **Yarn** (installation instructions)
-
 The quickest way to get things up and running is to clone this repository,
-and start a development server in the repo directory:
+and start a development server from the repo directory.
+
+**Prerequisite:**
+
+* Yarn ([install instructions](https://classic.yarnpkg.com/en/docs/install/))
+
+**Steps:**
 
 ```
 $ git clone https://github.com/shashank025/schemaviz.git
@@ -18,17 +22,24 @@ $ cd schemaviz/
 $ yarn start
 ```
 
-This will start a local webserver that visualizes the provided default schema.
+This will start a local webserver that visualizes the provided
+[default schema](dist/schema.csv).
+
+**Viewing the Schema on your Browser:**
+
 Point your browser at the following url to view it:
 
 * [Link to local webserver](http://localhost:8080/)
 
 **Screenshot:**
 
+Here's how it looks on my computer:
+
 <img
+  style="border: solid 2px gray;"
   src="./docs/screenshot_localhost_example.png"
   alt="screenshot showing schemaviz interface on local webserver"
-  width="100%" align="center" />
+  width="80%" align="center" />
 
 You can also see an example at the
 [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
