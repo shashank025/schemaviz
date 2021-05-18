@@ -6,6 +6,9 @@ node_modules/
 # Ignore the Webpack output file
 dist/bundle.js
 
+# Mac-OS files
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

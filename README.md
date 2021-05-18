@@ -23,6 +23,12 @@ Point your browser at the following url to view it:
 
 * [Link to local webserver](http://localhost:8080/)
 
+**Screenshot:**
+
+<img
+  src="./docs/screenshot_localhost_example.png"
+  alt="screenshot showing schemaviz interface on local webserver"
+  width="100%" align="center" />
 
 You can also see an example at the
 [Schemaviz Github project page](http://shashank025.github.io/schemaviz/).
