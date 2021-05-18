@@ -14,12 +14,10 @@ class SchemaRenderer {
 
   render() {
     const simulation = d3.forceSimulation(this.nodes)
-      .force('link', d3.forceLink(this.links).id((d) => d.name))
-      .force('charge', d3.forceManyBody().strength(-200));
+      .force('link', d3.forceLink(this.links).id((d) => d.name).distance(100))
+      .force('charge', d3.forceManyBody().strength(-250));
 
-    const svg = d3.select('#svg')
-      .append('svg')
-      .attr('class', 'svg-content');
+    const svg = d3.select('svg');
 
     // build the arrow.
     svg.append('svg:defs').selectAll('marker')
