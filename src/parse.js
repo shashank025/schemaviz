@@ -8,9 +8,7 @@ const parse = (records) => {
   const nodes = {};
   const links = [];
   records.forEach((record) => {
-    const {
-      source, target,
-    } = record;
+    const { source, target } = record;
     if (!nodes[source]) {
       nodes[source] = {
         name: source,
