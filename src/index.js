@@ -9,7 +9,7 @@ function main() {
   document.querySelector("#myBtn").addEventListener(
     "click",
     // eslint-disable-next-line no-unused-vars
-    (e) => {
+    e => {
       Promise.resolve(parseAndRender("schema.csv"));
     }
   );

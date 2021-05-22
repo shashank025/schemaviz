@@ -4,10 +4,10 @@
  * The records are assumed to be generated via:
  *     records = await d3.csv(csvFileName);
  */
-const parse = (records) => {
+const parse = records => {
   const nodes = {};
   const links = [];
-  records.forEach((record) => {
+  records.forEach(record => {
     const { source, target } = record;
     if (!nodes[source]) {
       nodes[source] = {

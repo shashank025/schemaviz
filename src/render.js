@@ -19,7 +19,7 @@ class SchemaRenderer {
         "link",
         d3
           .forceLink(this.links)
-          .id((d) => d.name)
+          .id(d => d.name)
           .distance(100)
       )
       .force("charge", d3.forceManyBody().strength(-250));
@@ -59,21 +59,21 @@ class SchemaRenderer {
 
     const rscale = d3
       .scaleLinear()
-      .domain([0, d3.max(this.nodes, (d) => d.edges)])
+      .domain([0, d3.max(this.nodes, d => d.edges)])
       .range([MIN_RADIUS, MAX_RADIUS]);
 
     // add the nodes
-    node.append("circle").attr("r", (d) => rscale(d.edges));
+    node.append("circle").attr("r", d => rscale(d.edges));
 
     // add the text
     node
       .append("text")
-      .attr("x", (d) => rscale(d.edges) + 3)
+      .attr("x", d => rscale(d.edges) + 3)
       .attr("dy", ".35em")
-      .text((d) => d.name);
+      .text(d => d.name);
 
     simulation.on("tick", () => {
-      path.attr("d", (d) => {
+      path.attr("d", d => {
         const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
         const n = rscale(d.target.edges); // radius of target circle
         const k = n / (r + EPSILON); // multiplier
@@ -82,7 +82,7 @@ class SchemaRenderer {
         return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${x2},${y2}`;
       });
 
-      node.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
+      node.attr("transform", d => `translate(${d.x}, ${d.y})`);
     });
   }
 }
