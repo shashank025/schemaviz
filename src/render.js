@@ -20,7 +20,7 @@ class SchemaRenderer {
         d3
           .forceLink(this.links)
           .id(d => d.name)
-          .distance(100)
+          .distance(50)
       )
       .force("charge", d3.forceManyBody().strength(-250));
 

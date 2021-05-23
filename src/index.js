@@ -6,13 +6,9 @@ import SchemaRenderer from "./render";
 main();
 
 function main() {
-  document.querySelector("#myBtn").addEventListener(
-    "click",
-    // eslint-disable-next-line no-unused-vars
-    e => {
-      Promise.resolve(parseAndRender("schema.csv"));
-    }
-  );
+  document.querySelector("#myBtn").addEventListener("click", () => {
+    Promise.resolve(parseAndRender("schema.csv"));
+  });
 }
 
 async function parseAndRender(csvFileName) {
