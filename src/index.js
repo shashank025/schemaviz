@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import * as d3 from "d3";
 import parse from "./parse";
 import SchemaRenderer from "./render";
