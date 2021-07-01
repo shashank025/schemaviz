@@ -5,6 +5,9 @@ const EPSILON = 0.000001;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
+const LINK_DISTANCE = 70;
+const CHARGE = -250;
+const ALPHA = 0.3;
 
 class SchemaRenderer {
   constructor(data) {
@@ -13,6 +16,8 @@ class SchemaRenderer {
   }
 
   render() {
+    const svg = d3.select("svg");
+
     const simulation = d3
       .forceSimulation(this.nodes)
       .force(
@@ -20,11 +25,9 @@ class SchemaRenderer {
         d3
           .forceLink(this.links)
           .id(d => d.name)
-          .distance(50)
+          .distance(LINK_DISTANCE)
       )
-      .force("charge", d3.forceManyBody().strength(-250));
-
-    const svg = d3.select("svg");
+      .force("charge", d3.forceManyBody().strength(CHARGE));
 
     // build the arrow.
     svg
@@ -89,7 +92,7 @@ class SchemaRenderer {
 
 function drag(simulation) {
   function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
+    if (!event.active) simulation.alphaTarget(ALPHA).restart();
     d.fx = d.x;
     d.fy = d.y;
   }
