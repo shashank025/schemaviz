@@ -12,6 +12,9 @@ and start a development server from the repo directory.
 
 **Prerequisite:**
 
+Either one of:
+
+* NPM, or
 * Yarn ([install instructions](https://classic.yarnpkg.com/en/docs/install/))
 
 **Steps:**
@@ -19,7 +22,7 @@ and start a development server from the repo directory.
 ```
 $ git clone https://github.com/shashank025/schemaviz.git
 $ cd schemaviz/
-$ yarn start
+$ npm start  // or yarn start
 ```
 
 This will start a local webserver that visualizes the provided
