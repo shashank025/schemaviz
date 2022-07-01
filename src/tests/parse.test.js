@@ -44,3 +44,18 @@ test("parse when input is a chain of dependencies", () => {
     ],
   });
 });
+
+test("parse when dupes in input", () => {
+  expect(
+    parse([
+      { source: "team", target: "player" },
+      { source: "team", target: "player" },
+    ])
+  ).toStrictEqual({
+    nodes: [
+      { name: "team", edges: 1 },
+      { name: "player", edges: 1 },
+    ],
+    links: [{ source: "team", target: "player" }],
+  });
+});
