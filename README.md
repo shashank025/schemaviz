@@ -1,5 +1,4 @@
-schemaviz
-=========
+# schemaviz
 
 Visually represent every table in your database schema, and the foreign key
 relationships (and more) between these tables, using
@@ -14,14 +13,15 @@ and start a development server from the repo directory.
 
 Either one of:
 
-* NPM, or
-* Yarn ([install instructions](https://classic.yarnpkg.com/en/docs/install/))
+- NPM, or
+- Yarn ([install instructions](https://classic.yarnpkg.com/en/docs/install/))
 
 **Steps:**
 
 ```
 $ git clone https://github.com/shashank025/schemaviz.git
 $ cd schemaviz/
+$ npm install
 $ npm start  // or yarn start
 ```
 
@@ -32,7 +32,7 @@ This will start a local webserver that visualizes the provided
 
 Point your browser at the following url to view it:
 
-* [Link to local webserver](http://localhost:8080/)
+- [Link to local webserver](http://localhost:8080/)
 
 **Screenshot:**
 
@@ -58,7 +58,6 @@ refer to some columns in B:
 ```
     A ---> B
 ```
-
 
 Use the provided [schema.csv](dist/schema.csv) file to tell schemaviz what your
 schema looks like. This file should contain comma-separated records of the form:
