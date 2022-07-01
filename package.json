@@ -6,7 +6,8 @@
     "build": "webpack",
     "start": "webpack serve --config ./webpack.config.js --mode development",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "git config core.hooksPath ./.git-hooks"
   },
   "repository": {
     "type": "git",

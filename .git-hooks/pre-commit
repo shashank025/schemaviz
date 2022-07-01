@@ -1,0 +1,17 @@
+#!/bin/sh
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+
+# run tests related to staged files
+echo "[Pre-commit] Running Tests ..."
+./node_modules/.bin/jest --bail --findRelatedTests $STAGED_FILES --passWithNoTests
+JEST_EXIT_CODE=$?
+
+# check jest exit code
+if [ $JEST_EXIT_CODE -ne 0 ]; then
+    echo "Cannot proceed commit due to one or more failed tests 🙏🙏🙏"
+    exit 1
+fi
+
+# return 0-exit code
+echo "🎉 All pre-commits passed. 🔥🔥🔥"
+exit 0
