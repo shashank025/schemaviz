@@ -14,9 +14,24 @@
 const parse = records => {
   const nodes = {};
   const links = [];
-  // a multi-level Map structure of the form:
-  // { source => Set(targets) }
+  // a Map of the form: source => Set(targets)
   const seen = new Map();
+  const wasSeenBefore = (source, target) => {
+    if (!seen.has(source)) {
+      // first time this source has been seen: initialize!
+      seen.set(source, new Set());
+    }
+
+    const targets = seen.get(source);
+    if (targets.has(target)) {
+      // this source/target combo was seen before!
+      return true;
+    }
+
+    targets.add(target);
+    return false;
+  };
+
   records.forEach(record => {
     const { source, target } = record;
     if (!nodes[source]) {
@@ -37,21 +52,13 @@ const parse = records => {
       };
     }
 
-    // at this point, both source and target are non-empty
-    let targets = seen.get(source);
-    if (!targets) {
-      // first time this source has been seen: initialize!
-      targets = new Set();
-      seen.set(source, targets);
+    if (wasSeenBefore(source, target)) {
+      return;
     }
 
-    // only add source/target to links if not seen before
-    if (!targets.has(target)) {
-      targets.add(target);
-      nodes[source].edges += 1;
-      nodes[target].edges += 1;
-      links.push(record);
-    }
+    nodes[source].edges += 1;
+    nodes[target].edges += 1;
+    links.push(record);
   });
   return {
     nodes: Object.values(nodes),
