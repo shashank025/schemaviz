@@ -68,12 +68,8 @@ class SchemaRenderer {
     // add the nodes
     node.append("circle").attr("r", d => rscale(d.edges));
 
-    // add the text
-    node
-      .append("text")
-      .attr("x", d => rscale(d.edges) + 3)
-      .attr("dy", ".35em")
-      .text(d => d.name);
+    // show name as text on hover
+    node.append("title").text(d => d.name);
 
     simulation.on("tick", () => {
       path.attr("d", d => {
