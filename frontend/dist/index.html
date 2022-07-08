@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="./style.css">
-    <title>Visualize your Database Schema</title>
-  </head>
-  <body>
-    <h1>Visualize your Database Schema</h1>
-    <button id="myBtn" style="margin: 1em;">
-      Visualize!
-    </button>
-    <div class="svg-container">
-      <svg class="svg-content"></svg>
-    </div>
-    <script src="./bundle.js"></script>
-  </body>
+
+<head>
+  <link rel="stylesheet" href="./style.css">
+  <title>Visualize your Database Schema</title>
+</head>
+
+<body>
+  <h1>Visualize your Database Schema</h1>
+  <form>
+    <label for="connectionUri">Database Connection URI:</label>
+    <input type="text" name="connectionUri" id="connectionUri" size="80"
+      placeholder="e.g. postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs" />
+    <input type="button" name="visualizeButton" id="myBtn" value="Visualize" />
+  </form>
+  <div class="svg-container">
+    <svg class="svg-content"></svg>
+  </div>
+  <script src="./bundle.js"></script>
+</body>
+
 </html>

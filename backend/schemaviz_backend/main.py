@@ -1,4 +1,3 @@
-import json
 import psycopg
 
 from fastapi import FastAPI
@@ -10,13 +9,13 @@ ALLOWED_ORIGINS = [
 
 DEPENDENCY_SELECTION_QUERY = """
 SELECT DISTINCT
-        c1.relname AS source, c2.relname AS target
-      FROM pg_class c1
-      JOIN pg_namespace n ON (n.oid = c1.relnamespace)
-      LEFT JOIN pg_constraint s ON (s.conrelid = c1.oid and s.contype = 'f')
-      LEFT JOIN pg_class c2 ON (c2.oid = s.confrelid)
-     WHERE c1.relkind = 'r'
-       AND n.nspname = 'rnacen'
+    c1.relname AS source, c2.relname AS target
+  FROM pg_class c1
+  JOIN pg_namespace n ON (n.oid = c1.relnamespace)
+  LEFT JOIN pg_constraint s ON (s.conrelid = c1.oid and s.contype = 'f')
+  LEFT JOIN pg_class c2 ON (c2.oid = s.confrelid)
+  WHERE c1.relkind = 'r'
+    AND n.nspname = 'rnacen'
 """
 
 app = FastAPI()
@@ -35,13 +34,13 @@ def read_root():
 
 
 @app.get('/dependencies')
-def get_dependencies(dsn_string):
+def get_dependencies(connection_uri):
     # TODO: add another param for the schema
-    print(dsn_string)
-    with psycopg.connect(dsn_string) as conn:
+    print(connection_uri)
+    with psycopg.connect(connection_uri) as conn:
         with conn.cursor() as cursor:
             cursor.execute(DEPENDENCY_SELECTION_QUERY)
             print(cursor.rowcount)
             dependencies = {}
-            return json.dumps(dict(dependencies=[dict(source=s, target=t)
-                                                 for s, t in cursor]))
+            return dict(dependencies=[dict(source=s, target=t)
+                                      for s, t in cursor])

@@ -1,3 +1,7 @@
+body {
+    height: 100vh;
+    font: 12px sans-serif;
+}
 path.link {
     fill: none;
     stroke: #666;
@@ -20,6 +24,10 @@ h1 {
     font: 36px sans-serif;
 }
 
+form {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
 .svg-container {
     border: solid 1px gray;
 }
