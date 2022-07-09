@@ -29,7 +29,7 @@ In one terminal, start the Python backend:
 
 ```
 $ cd schemaviz/backend
-$ poetry run uvicorn schemaviz_backend.main:app --reloa
+$ poetry run uvicorn schemaviz_backend.main:app --reload
 ```
 
 In another terminal, start the frontend:
@@ -39,7 +39,7 @@ $ cd schemaviz/frontend
 $ npm start
 ```
 
-This will start a [Link to local webserver](http://localhost:8080/).
+This will start a local webserver at http://localhost:8080/.
 
 ### Visualizing your schema
 
@@ -47,15 +47,11 @@ This will start a [Link to local webserver](http://localhost:8080/).
 2. Enter the connection string for your database, and
 3. Click "Visualize"
 
-You should see the tool display a directed graph showing the tables in your database and the relationships between them.
-
-- **Screenshot:**
-
-Here's how it looks on my computer:
+The web application should shortly display a directed graph showing the tables in your database and the relationships between them. Here's how it looks on my computer:
 
 <img
   style="border: solid 2px gray;"
-  src=".frontend/docs/screenshot_localhost_example.png"
+  src="frontend/docs/screenshot_localhost_example.png"
   alt="screenshot showing schemaviz interface on local webserver"
   width="80%" align="center" />
 
