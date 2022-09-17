@@ -10,16 +10,18 @@ const API_ENDPOINT = "http://localhost:8000/dependencies";
 main();
 
 function main() {
-  const visualizeButton = document.querySelector("#myBtn");
+  const visualizeButton = document.getElementById("myBtn");
+  const uriTextBox = document.getElementById("connectionUri");
   const loadingIndicator = document.getElementById("loader");
+
+  // hide the loading indicator initially
   loadingIndicator.style.visibility = "hidden";
 
   // when the "Visualize" button is clicked
   visualizeButton.addEventListener("click", () => {
     loadingIndicator.style.visibility = "visible";
-    const connUri = document.getElementById("connectionUri").value;
+    const connUri = uriTextBox.value;
     const encodedConnUri = encodeURIComponent(connUri);
-    // TODO: start a spinner that stops when this call finishes
     axios
       .get(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
       .then(response => {
@@ -36,7 +38,7 @@ function main() {
   });
 
   // when user presses Enter key with focus in the text input form field
-  document.querySelector("#connectionUri").addEventListener("keypress", e => {
+  uriTextBox.addEventListener("keypress", e => {
     if (e.key === "Enter") {
       // we dont want to reload the page, dawg!
       e.preventDefault();
