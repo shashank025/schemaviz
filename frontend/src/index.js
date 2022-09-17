@@ -11,20 +11,25 @@ main();
 
 function main() {
   const visualizeButton = document.querySelector("#myBtn");
+  const loadingIndicator = document.getElementById("loader");
+  loadingIndicator.style.visibility = "hidden";
 
   // when the "Visualize" button is clicked
   visualizeButton.addEventListener("click", () => {
+    loadingIndicator.style.visibility = "visible";
     const connUri = document.getElementById("connectionUri").value;
     const encodedConnUri = encodeURIComponent(connUri);
     // TODO: start a spinner that stops when this call finishes
     axios
       .get(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
       .then(response => {
+        loadingIndicator.style.visibility = "hidden";
         const parsed = parse(response.data.dependencies);
         const renderer = new SchemaRenderer(parsed);
         renderer.render();
       })
       .catch(error => {
+        loadingIndicator.style.visibility = "hidden";
         // TODO: show nice error message
         console.log(error);
       });

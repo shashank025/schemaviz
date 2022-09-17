@@ -28,6 +28,7 @@ form {
     padding-top: 4px;
     padding-bottom: 4px;
 }
+
 .svg-container {
     border: solid 1px gray;
 }
@@ -36,4 +37,12 @@ form {
     font: 12px sans-serif;
     width: 95%;
     height: 90vh;
+}
+
+.loader {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px;
+    background-color: gold;
 }
