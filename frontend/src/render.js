@@ -16,6 +16,8 @@ class SchemaRenderer {
 
   render() {
     const svg = d3.select("svg");
+    // Clear svg content before adding new elements
+    svg.selectAll("*").remove();
     const { width, height } = svg.node().getBoundingClientRect();
     // set the view box
     svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
