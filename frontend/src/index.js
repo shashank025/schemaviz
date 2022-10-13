@@ -53,12 +53,12 @@ function main() {
 
   // re-render (but dont re-download) when particle charge is modified
   chargeInput.addEventListener("change", e => {
+    renderer.setCharge(e.target.value);
     if (parsed == null) {
       // eslint-disable-next-line no-console
       console.log("No downloaded schema: change will be discarded!");
       return;
     }
-    renderer.setCharge(e.target.value);
     // TODO: instead of rendering from scratch, just update the charge!
     renderer.render(parsed);
   });
