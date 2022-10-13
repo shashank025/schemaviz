@@ -9,12 +9,22 @@
 <body>
   <h1>Visualize your Database Schema</h1>
   <form>
-    <label for="connectionUri">Database Connection URI:</label>
-    <input type="text" name="connectionUri" id="connectionUri" size="80"
-      placeholder="e.g. postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs" />
-    <input type="button" name="visualizeButton" id="myBtn" value="Visualize" />
+    <p>
+      <label for="connectionUri">Database Connection URI:</label>
+      <input type="text" name="connectionUri" id="connectionUri" size="80"
+        placeholder="e.g. postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs" />
+    </p>
+    <p>
+      <label for="charge">Particle charge:</label>
+      <input type="number" name="charge" id="charge" size="80" value="-250" />
+    </p>
+    <p>
+      <label for="myBtn"></label>
+      <input type="button" name="visualizeButton" id="myBtn" value="Visualize" />
+    </p>
   </form>
   <div id="loader" class="loader">Loading ...</div>
+  <br />
   <div class="svg-container">
     <svg class="svg-content"></svg>
   </div>

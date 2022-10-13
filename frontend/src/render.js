@@ -5,16 +5,18 @@ const EPSILON = 0.000001;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
-const CHARGE = -250;
 const ALPHA = 0.3;
 
 class SchemaRenderer {
-  constructor(data) {
-    this.nodes = data.nodes;
-    this.links = data.links;
+  constructor(initialCharge) {
+    this.charge = parseInt(initialCharge, 10);
   }
 
-  render() {
+  setCharge(newCharge) {
+    this.charge = parseInt(newCharge, 10);
+  }
+
+  render({ nodes, links }) {
     const svg = d3.select("svg");
     // Clear svg content before adding new elements
     svg.selectAll("*").remove();
@@ -23,12 +25,12 @@ class SchemaRenderer {
     svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
 
     const simulation = d3
-      .forceSimulation(this.nodes)
+      .forceSimulation(nodes)
       .force(
         "link",
-        d3.forceLink(this.links).id(d => d.name)
+        d3.forceLink(links).id(d => d.name)
       )
-      .force("charge", d3.forceManyBody().strength(CHARGE))
+      .force("charge", d3.forceManyBody().strength(this.charge))
       .force("x", d3.forceX())
       .force("y", d3.forceY());
 
@@ -51,21 +53,21 @@ class SchemaRenderer {
     const path = svg
       .append("svg:g")
       .selectAll("path")
-      .data(this.links)
+      .data(links)
       .join("svg:path")
       .attr("class", "link")
       .attr("marker-end", "url(#end)");
 
     const node = svg
       .selectAll(".node")
-      .data(this.nodes)
+      .data(nodes)
       .join("g")
       .attr("class", "node")
       .call(drag(simulation));
 
     const rscale = d3
       .scaleLinear()
-      .domain([0, d3.max(this.nodes, d => d.edges)])
+      .domain([0, d3.max(nodes, d => d.edges)])
       .range([MIN_RADIUS, MAX_RADIUS]);
 
     // add the nodes

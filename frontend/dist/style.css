@@ -1,48 +1,69 @@
 body {
-    height: 100vh;
-    font: 12px sans-serif;
+  height: 100vh;
+  font: 12px sans-serif;
 }
 path.link {
-    fill: none;
-    stroke: #666;
-    stroke-width: 1.5px;
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
 }
 
 circle {
-    fill: #ccc;
-    stroke: #111;
-    stroke-width: 1.5px;
+  fill: #ccc;
+  stroke: #111;
+  stroke-width: 1.5px;
 }
 
 text {
-    fill: #000;
-    font: 12px sans-serif;
-    pointer-events: none;
+  fill: #000;
+  font: 12px sans-serif;
+  pointer-events: none;
 }
 
 h1 {
-    font: 36px sans-serif;
+  font: 36px sans-serif;
 }
 
 form {
-    padding-top: 4px;
-    padding-bottom: 4px;
+  padding: 4px;
+  display: table;
+  background-color: rgba(217, 215, 226, 0.349);
+}
+
+/* recipe: https://stackoverflow.com/questions/4309950/how-to-align-input-forms-in-html */
+form p {
+  display: table-row;
+}
+form label {
+  display: table-cell;
+  text-align: right;
+  padding: 4px;
+  font: 12px sans-serif;
+}
+form input {
+  display: table-cell;
+  font: 12px sans-serif;
+  margin: 4px;
 }
 
 .svg-container {
-    border: solid 1px gray;
+  border: solid 4px rgba(141, 142, 145, 0.4);
 }
 
 .svg-content {
-    font: 12px sans-serif;
-    width: 95%;
-    height: 90vh;
+  font: 12px sans-serif;
+  width: 95%;
+  height: 90vh;
 }
 
 .loader {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 4px;
-    background-color: gold;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px;
+  background-color: gold;
+}
+
+.presentation {
+  padding: 4px;
 }
