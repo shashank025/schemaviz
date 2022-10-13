@@ -1,4 +1,3 @@
-import axios from "axios";
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import parse from "./parse";
@@ -26,11 +25,11 @@ function main() {
     loadingIndicator.style.visibility = "visible";
     const connUri = uriTextBox.value;
     const encodedConnUri = encodeURIComponent(connUri);
-    axios
-      .get(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
-      .then(response => {
+    fetch(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
+      .then(response => response.json())
+      .then(data => {
         loadingIndicator.style.visibility = "hidden";
-        parsed = parse(response.data.dependencies);
+        parsed = parse(data.dependencies);
         renderer.render(parsed);
       })
       .catch(error => {
