@@ -5,15 +5,20 @@ const EPSILON = 0.000001;
 // circle dimensions
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
-const ALPHA = 0.3;
+const ALPHA_TARGET = 0.3;
 
 class SchemaRenderer {
-  constructor(initialCharge) {
+  constructor(initialCharge, initialLinkDistance) {
     this.charge = parseInt(initialCharge, 10);
+    this.linkDistance = parseInt(initialLinkDistance, 10);
   }
 
   setCharge(newCharge) {
     this.charge = parseInt(newCharge, 10);
+  }
+
+  setLinkDistance(newLinkDistance) {
+    this.linkDistance = parseInt(newLinkDistance, 10);
   }
 
   render({ nodes, links }) {
@@ -28,7 +33,10 @@ class SchemaRenderer {
       .forceSimulation(nodes)
       .force(
         "link",
-        d3.forceLink(links).id(d => d.name)
+        d3
+          .forceLink(links)
+          .distance(this.linkDistance)
+          .id(d => d.name)
       )
       .force("charge", d3.forceManyBody().strength(this.charge))
       .force("x", d3.forceX())
@@ -93,7 +101,7 @@ class SchemaRenderer {
 
 function drag(simulation) {
   function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(ALPHA).restart();
+    if (!event.active) simulation.alphaTarget(ALPHA_TARGET).restart();
     d.fx = d.x;
     d.fy = d.y;
   }

@@ -13,8 +13,12 @@ function main() {
   const uriTextBox = document.getElementById("connectionUri");
   const loadingIndicator = document.getElementById("loader");
   const chargeInput = document.getElementById("charge");
+  const linkDistanceInput = document.getElementById("distance");
 
-  const renderer = new SchemaRenderer(chargeInput.value);
+  const renderer = new SchemaRenderer(
+    chargeInput.value,
+    linkDistanceInput.value
+  );
   let parsed = null;
 
   // hide the loading indicator initially
@@ -56,6 +60,20 @@ function main() {
     if (parsed == null) {
       // eslint-disable-next-line no-console
       console.log("No downloaded schema: change will be discarded!");
+      return;
+    }
+    // TODO: instead of rendering from scratch, just update the charge!
+    renderer.render(parsed);
+  });
+
+  // re-render (but dont re-download) when particle charge is modified
+  linkDistanceInput.addEventListener("change", e => {
+    renderer.setLinkDistance(e.target.value);
+    if (parsed == null) {
+      // eslint-disable-next-line no-console
+      console.log(
+        "No downloaded schema: link distance update will be discarded!"
+      );
       return;
     }
     // TODO: instead of rendering from scratch, just update the charge!
