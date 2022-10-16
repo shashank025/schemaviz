@@ -85,18 +85,19 @@ class SchemaRenderer {
     node.append("title").text(d => d.name);
 
     simulation.on("tick", () => {
-      path.attr("d", d => {
-        const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
-        const n = rscale(d.target.edges); // radius of target circle
-        const k = n / (r + EPSILON); // multiplier
-        const x2 = (1 - k) * d.target.x + k * d.source.x;
-        const y2 = (1 - k) * d.target.y + k * d.source.y;
-        return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${x2},${y2}`;
-      });
-
+      path.attr("d", d => linkArc(d, rscale));
       node.attr("transform", d => `translate(${d.x}, ${d.y})`);
     });
   }
+}
+
+function linkArc(d, rscale) {
+  const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+  const n = rscale(d.target.edges); // radius of target circle
+  const k = n / (r + EPSILON); // multiplier
+  const x2 = (1 - k) * d.target.x + k * d.source.x;
+  const y2 = (1 - k) * d.target.y + k * d.source.y;
+  return `M${d.source.x},${d.source.y} A${r},${r} 0 0,1 ${x2},${y2}`;
 }
 
 function drag(simulation) {
