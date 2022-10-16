@@ -11,6 +11,7 @@ class SchemaRenderer {
   constructor(initialCharge, initialLinkDistance) {
     this.charge = parseInt(initialCharge, 10);
     this.linkDistance = parseInt(initialLinkDistance, 10);
+    this.svg = getSvg();
   }
 
   setCharge(newCharge) {
@@ -22,12 +23,14 @@ class SchemaRenderer {
   }
 
   render({ nodes, links }) {
-    const svg = d3.select("svg");
     // Clear svg content before adding new elements
-    svg.selectAll("*").remove();
-    const { width, height } = svg.node().getBoundingClientRect();
-    // set the view box
-    svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
+    this.svg.selectAll("*").remove();
+
+    // used to determine node radius, and arc dimensions
+    const rscale = d3
+      .scaleLinear()
+      .domain([0, d3.max(nodes, n => n.edges)])
+      .range([MIN_RADIUS, MAX_RADIUS]);
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -43,7 +46,7 @@ class SchemaRenderer {
       .force("y", d3.forceY());
 
     // build the arrow.
-    svg
+    this.svg
       .append("svg:defs")
       .selectAll("marker")
       .data(["end"])
@@ -57,8 +60,8 @@ class SchemaRenderer {
       .append("svg:path")
       .attr("d", "M0,0 L0,6 L6,3 Z");
 
-    // add the links and the arrows
-    const path = svg
+    // each dependency between tables
+    const path = this.svg
       .append("svg:g")
       .selectAll("path")
       .data(links)
@@ -66,21 +69,16 @@ class SchemaRenderer {
       .attr("class", "link")
       .attr("marker-end", "url(#end)");
 
-    const node = svg
+    // each database table
+    const node = this.svg
       .selectAll(".node")
       .data(nodes)
       .join("g")
       .attr("class", "node")
       .call(drag(simulation));
 
-    const rscale = d3
-      .scaleLinear()
-      .domain([0, d3.max(nodes, d => d.edges)])
-      .range([MIN_RADIUS, MAX_RADIUS]);
-
     // add the nodes
     node.append("circle").attr("r", d => rscale(d.edges));
-
     // show name as text on hover
     node.append("title").text(d => d.name);
 
@@ -89,6 +87,13 @@ class SchemaRenderer {
       node.attr("transform", d => `translate(${d.x}, ${d.y})`);
     });
   }
+}
+
+function getSvg() {
+  const svg = d3.select("svg");
+  const { width, height } = svg.node().getBoundingClientRect();
+  svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
+  return svg;
 }
 
 function linkArc(d, rscale) {
