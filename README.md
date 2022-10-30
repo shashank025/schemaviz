@@ -43,11 +43,23 @@ This will start a local webserver at http://localhost:8080/.
 
 ### Visualizing your schema
 
-1. Navigate to the [local webserver](http://localhost:8080/) in your browser.
+1. Navigate to the [local webserver](http://localhost:8080/)
+   in your browser.
 2. Enter the connection string for your database, and
 3. Click "Visualize"
 
-The web application should shortly display a directed graph showing the tables in your database and the relationships between them. Here's how it looks on my computer:
+The web application should shortly display a directed graph
+showing the tables in your database and the relationships
+between them.
+
+For example, when I point this tool
+at the following publically available database:
+
+```
+postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs
+```
+
+here's how the resulting visualization looks:
 
 <img
   style="border: solid 2px gray;"
