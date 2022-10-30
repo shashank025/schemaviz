@@ -69,15 +69,26 @@ here's how the resulting visualization looks:
 
 ### Architecture
 
-This tool consists of a [frontend](frontend/), and a [backend](backend/):
+This tool consists of a [frontend](frontend/), and
+a [backend](backend/):
 
-- The backend is a Python-based API service that currently exposes just one API that lets you specify a database to connect to. This service connects to that database, queries its schema, and assembles dependency info to the API caller.
+- The backend is a Python-based API service that currently
+  exposes just one API that lets you specify a database to
+  connect to. This service connects to that database,
+  queries its schema, and assembles dependency info to the
+  API caller.
 
-- The frontend is a Node-based web application that queries the backend and renders the database schema visually.
+- The frontend is a Node-based web application that
+  queries the backend and renders the database schema
+  visually.
 
 ### Visualization Approach
 
-We use d3's [force directed layout scheme](https://observablehq.com/@d3/mobile-patent-suits) to produce an SVG image where each relation (table) in your schema is rendered as a node. A directed edge is added from node A to node B if some columns in A refer to some columns in B, as expressed via a
+We use d3's [force directed layout scheme](https://observablehq.com/@d3/mobile-patent-suits)
+to produce an SVG image where each relation (table) in your
+schema is rendered as a node. A directed edge is added
+from node A to node B if some columns in A refer to some
+columns in B, as expressed via a
 [foreign key constraint](http://en.wikipedia.org/wiki/Foreign_key):
 
 ```
@@ -86,7 +97,10 @@ We use d3's [force directed layout scheme](https://observablehq.com/@d3/mobile-p
 
 ### Improvements (for large graphs)
 
-A good visualization is particularly useful when the underlying database schema is pretty large (1000+ tables). But it is not straightforward to render the force directed layout for a graph that large. Here are some ideas to make the visualization more useful:
+A good visualization is particularly useful when the underlying
+database schema is pretty large (1000+ tables). But it is not
+straightforward to render the force directed layout for a graph
+that large. Here are some ideas to make the visualization more useful:
 
 1. Ability to search for and highlight a given table in the schema.
 1. Expose the parameters of the force directed layout: `height`, `width`, `linkDistance`, `charge`, `gravity`, etc.
