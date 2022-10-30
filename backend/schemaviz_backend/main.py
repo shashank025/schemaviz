@@ -9,12 +9,20 @@ ALLOWED_ORIGINS = [
 
 DEPENDENCY_SELECTION_QUERY = """
 SELECT DISTINCT
-    c1.relname AS source, c2.relname AS target
-  FROM pg_class c1
-  JOIN pg_namespace n ON (n.oid = c1.relnamespace)
-  LEFT JOIN pg_constraint s ON (s.conrelid = c1.oid and s.contype = 'f')
-  LEFT JOIN pg_class c2 ON (c2.oid = s.confrelid)
-  WHERE c1.relkind = 'r'
+    srel.relname AS source,
+    trel.relname AS target,
+    snsp.nspname AS source_schema,
+    tnsp.nspname AS target_schema
+  FROM pg_class srel
+  JOIN pg_namespace snsp ON (
+    snsp.oid = srel.relnamespace)
+  LEFT JOIN pg_constraint s ON (
+    s.conrelid = srel.oid and s.contype = 'f')
+  LEFT JOIN pg_class trel ON (
+    trel.oid = s.confrelid)
+  LEFT JOIN pg_namespace tnsp ON (
+    tnsp.oid = trel.relnamespace)
+  WHERE srel.relkind = 'r'
 """
 
 app = FastAPI()
@@ -40,6 +48,9 @@ def get_dependencies(connection_uri):
         with conn.cursor() as cursor:
             cursor.execute(DEPENDENCY_SELECTION_QUERY)
             print(cursor.rowcount)
-            dependencies = {}
-            return dict(dependencies=[dict(source=s, target=t)
-                                      for s, t in cursor])
+            return dict(dependencies=[dict(
+                source=s,
+                target=t,
+                source_schema=sn,
+                target_schema=tn)
+                for s, t, sn, tn in cursor])
