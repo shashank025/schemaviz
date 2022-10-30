@@ -15,7 +15,6 @@ SELECT DISTINCT
   LEFT JOIN pg_constraint s ON (s.conrelid = c1.oid and s.contype = 'f')
   LEFT JOIN pg_class c2 ON (c2.oid = s.confrelid)
   WHERE c1.relkind = 'r'
-    AND n.nspname = 'rnacen'
 """
 
 app = FastAPI()
