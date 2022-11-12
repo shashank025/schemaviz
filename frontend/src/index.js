@@ -8,12 +8,24 @@ const API_ENDPOINT = "http://localhost:8000/dependencies";
 // entry-point
 main();
 
+const constructStatsHtml = ({ nodes, links }) => {
+  const n = nodes.length;
+  const e = links.length;
+  const s = [...new Set(nodes.map(n => n.schema))].length;
+  return `<table>
+    <tr><td>Tables:</td><td>${n}</td></tr>
+    <tr><td>Edges:</td><td>${e}</td></tr>
+    <tr><td>Schemas:</td><td>${s}</td></tr>
+  </table>`;
+};
+
 function main() {
   const visualizeButton = document.getElementById("myBtn");
   const uriTextBox = document.getElementById("connectionUri");
   const loadingIndicator = document.getElementById("loader");
   const chargeInput = document.getElementById("charge");
   const linkDistanceInput = document.getElementById("distance");
+  const simulationInfoElement = document.getElementById("simulation_info");
 
   const renderer = new SchemaRenderer(
     chargeInput.value,
@@ -34,6 +46,7 @@ function main() {
       .then(data => {
         loadingIndicator.style.visibility = "hidden";
         parsed = parse(data.dependencies);
+        simulationInfoElement.innerHTML = constructStatsHtml(parsed);
         renderer.render(parsed);
       })
       .catch(error => {
