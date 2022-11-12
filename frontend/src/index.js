@@ -92,11 +92,7 @@ function setupAndRender(dependencies, renderer) {
     input.setAttribute("value", schema);
     input.setAttribute("checked", true);
     input.addEventListener("change", e => {
-      if (e.target.checked) {
-        schemaSelectionMap.set(schema, true);
-      } else {
-        schemaSelectionMap.set(schema, false);
-      }
+      schemaSelectionMap.set(schema, e.target.checked);
       // compute new dependency graph and render
       const updatedDependencies = filterBySchema(
         dependencies,
