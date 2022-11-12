@@ -110,6 +110,7 @@ function setupAndRender(dependencies, renderer) {
 function constructInput(schema, changeListener) {
   const input = document.createElement("input");
   input.setAttribute("type", "checkbox");
+  input.setAttribute("id", schema);
   input.setAttribute("name", schema);
   input.setAttribute("value", schema);
   input.setAttribute("checked", true);
