@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import * as d3 from "d3";
 
 // avoid divide-by-zero errors
@@ -14,15 +15,32 @@ class SchemaRenderer {
     this.svg = getSvg();
   }
 
-  setCharge(newCharge) {
+  // update the particle charge: can trigger a re-render
+  updateCharge(newCharge) {
     this.charge = parseInt(newCharge, 10);
+    this._render();
   }
 
-  setLinkDistance(newLinkDistance) {
+  // update the link distance: can trigger a re-render
+  updateLinkDistance(newLinkDistance) {
     this.linkDistance = parseInt(newLinkDistance, 10);
+    this._render();
   }
 
-  render({ nodes, links }) {
+  // set or update the database schema: will trigger a re-render
+  updateSchema({ nodes, links }) {
+    this.schema = { nodes, links };
+    this._render();
+  }
+
+  _render() {
+    if (!this.schema) {
+      // eslint-disable-next-line no-console
+      console.log("Graph not set: no rendering!");
+      return;
+    }
+
+    const { nodes, links } = this.schema;
     // Clear svg content before adding new elements
     this.svg.selectAll("*").remove();
 

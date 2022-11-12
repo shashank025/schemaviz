@@ -31,7 +31,7 @@ function main() {
     chargeInput.value,
     linkDistanceInput.value
   );
-  let parsed = null;
+  let downloadedSchema = null;
 
   // hide the loading indicator initially
   loadingIndicator.style.visibility = "hidden";
@@ -45,9 +45,10 @@ function main() {
       .then(response => response.json())
       .then(data => {
         loadingIndicator.style.visibility = "hidden";
-        parsed = parse(data.dependencies);
-        simulationInfoElement.innerHTML = constructStatsHtml(parsed);
-        renderer.render(parsed);
+        downloadedSchema = data.dependencies;
+        const parsedSchema = parse(downloadedSchema);
+        simulationInfoElement.innerHTML = constructStatsHtml(parsedSchema);
+        renderer.updateSchema(parsedSchema);
       })
       .catch(error => {
         loadingIndicator.style.visibility = "hidden";
@@ -69,27 +70,11 @@ function main() {
 
   // re-render (but dont re-download) when particle charge is modified
   chargeInput.addEventListener("change", e => {
-    renderer.setCharge(e.target.value);
-    if (parsed == null) {
-      // eslint-disable-next-line no-console
-      console.log("No downloaded schema: change will be discarded!");
-      return;
-    }
-    // TODO: instead of rendering from scratch, just update the charge!
-    renderer.render(parsed);
+    renderer.updateCharge(e.target.value);
   });
 
   // re-render (but dont re-download) when link distance is modified
   linkDistanceInput.addEventListener("change", e => {
-    renderer.setLinkDistance(e.target.value);
-    if (parsed == null) {
-      // eslint-disable-next-line no-console
-      console.log(
-        "No downloaded schema: link distance update will be discarded!"
-      );
-      return;
-    }
-    // TODO: instead of rendering from scratch, just update the charge!
-    renderer.render(parsed);
+    renderer.updateLinkDistance(e.target.value);
   });
 }
