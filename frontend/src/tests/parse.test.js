@@ -99,3 +99,22 @@ test("parse when dupes in input", () => {
     links: [{ source: "public.team", target: "public.player" }],
   });
 });
+
+test("simplest scenario with two schemas", () => {
+  expect(
+    parse([
+      {
+        source: "team",
+        sourceSchema: "public",
+        target: "team",
+        targetSchema: "release",
+      },
+    ])
+  ).toStrictEqual({
+    nodes: [
+      { fqn: "public.team", name: "team", schema: "public", edges: 1 },
+      { fqn: "release.team", name: "team", schema: "release", edges: 1 },
+    ],
+    links: [{ source: "public.team", target: "release.team" }],
+  });
+});
