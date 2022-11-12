@@ -2,6 +2,7 @@ body {
   height: 100vh;
   font: 12px sans-serif;
 }
+
 path.link {
   fill: none;
   stroke: #666;
@@ -46,11 +47,8 @@ form input {
   margin: 4px;
 }
 
-.svg-container {
-  border: solid 4px rgba(141, 142, 145, 0.4);
-}
-
 .svg-content {
+  border: solid 4px rgba(141, 142, 145, 0.4);
   font: 12px sans-serif;
   width: 95%;
   height: 90vh;
@@ -62,8 +60,4 @@ form input {
   right: 0;
   padding: 4px;
   background-color: gold;
-}
-
-.presentation {
-  padding: 4px;
 }
