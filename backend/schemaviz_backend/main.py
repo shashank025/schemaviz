@@ -51,6 +51,6 @@ def get_dependencies(connection_uri):
             return dict(dependencies=[dict(
                 source=s,
                 target=t,
-                source_schema=sn,
-                target_schema=tn)
+                sourceSchema=sn,
+                targetSchema=tn)
                 for s, t, sn, tn in cursor])
