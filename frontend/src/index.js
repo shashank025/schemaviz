@@ -66,7 +66,7 @@ function main() {
     renderer.render(parsed);
   });
 
-  // re-render (but dont re-download) when particle charge is modified
+  // re-render (but dont re-download) when link distance is modified
   linkDistanceInput.addEventListener("change", e => {
     renderer.setLinkDistance(e.target.value);
     if (parsed == null) {
