@@ -93,10 +93,8 @@ function setupAndRender(dependencies, renderer) {
     input.setAttribute("checked", true);
     input.addEventListener("change", e => {
       schemaSelectionMap.set(schema, e.target.checked);
-      // compute new dependency graph and render
-      const updatedDependencies = filterBySchema(
-        dependencies,
-        schemaSelectionMap
+      const updatedDependencies = dependencies.filter(dependency =>
+        areSchemasSelected(dependency, schemaSelectionMap)
       );
       const updatedSchema = parse(updatedDependencies);
       renderer.updateSchema(updatedSchema);
@@ -117,20 +115,11 @@ function setupAndRender(dependencies, renderer) {
 }
 
 // select a dependency only if both its source and target schemas selected
-function filterBySchema(dependencies, schemaSelectionMap) {
-  return dependencies.filter(({ sourceSchema, targetSchema }) => {
-    if (!schemaSelectionMap.has(sourceSchema)) {
-      return false;
-    }
-    if (!schemaSelectionMap.get(sourceSchema)) {
-      return false;
-    }
-    if (!targetSchema) {
-      return false;
-    }
-    if (!schemaSelectionMap.has(targetSchema)) {
-      return false;
-    }
-    return schemaSelectionMap.get(targetSchema);
-  });
+function areSchemasSelected(dependency, schemaSelectionMap) {
+  const { sourceSchema, targetSchema } = dependency;
+  return (
+    schemaSelectionMap.get(sourceSchema) &&
+    targetSchema &&
+    schemaSelectionMap.get(targetSchema)
+  );
 }
