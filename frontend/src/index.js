@@ -76,6 +76,7 @@ function setupAndRender(dependencies, renderer) {
   // this will track whether a given schema is selected
   const schemaSelectionMap = new Map();
   schemaSet.forEach(schema => {
+    // initially, every schema is selected
     schemaSelectionMap.set(schema, true);
   });
 
@@ -86,12 +87,7 @@ function setupAndRender(dependencies, renderer) {
   schemaSet.forEach(schema => {
     const para = document.createElement("p");
 
-    const input = document.createElement("input");
-    input.setAttribute("type", "checkbox");
-    input.setAttribute("name", schema);
-    input.setAttribute("value", schema);
-    input.setAttribute("checked", true);
-    input.addEventListener("change", e => {
+    const input = constructInput(schema, e => {
       schemaSelectionMap.set(schema, e.target.checked);
       const updatedDependencies = dependencies.filter(dependency =>
         areSchemasSelected(dependency, schemaSelectionMap)
@@ -99,10 +95,7 @@ function setupAndRender(dependencies, renderer) {
       const updatedSchema = parse(updatedDependencies);
       renderer.updateSchema(updatedSchema);
     });
-
-    const label = document.createElement("label");
-    label.setAttribute("for", schema);
-    label.textContent = schema;
+    const label = constructLabel(schema);
 
     para.appendChild(input);
     para.appendChild(label);
@@ -112,6 +105,23 @@ function setupAndRender(dependencies, renderer) {
 
   // don't forget to do first-time render!
   renderer.updateSchema({ nodes, links });
+}
+
+function constructInput(schema, changeListener) {
+  const input = document.createElement("input");
+  input.setAttribute("type", "checkbox");
+  input.setAttribute("name", schema);
+  input.setAttribute("value", schema);
+  input.setAttribute("checked", true);
+  input.addEventListener("change", changeListener);
+  return input;
+}
+
+function constructLabel(schema) {
+  const label = document.createElement("label");
+  label.setAttribute("for", schema);
+  label.textContent = schema;
+  return label;
 }
 
 // select a dependency only if both its source and target schemas selected
