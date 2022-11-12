@@ -1,21 +1,33 @@
 /**
- * Parses the provided CSV records into structure suitable for rendering.
- * Each record is a map of the form { source: xxx, target: yyy }, assumed
- * to be generated via:
- *     records = await d3.csv(csvFileName);
+ * Parses the input into a structure suitable for rendering.
+ *
+ * Each input record is a map of the form:
+ *   { source: xxx, source_schema: n, target: yyy, target_schema: t }.
  *
  * The output is a map of the form:
  *
  * {
- *    nodes: [{ name: xxx, edges: 1}, { name: yyy, edges: 1}, ...],
- *    links: [{ source: xxx, target: yyy }, ...]
+ *    nodes: [
+ *        { fqn: n.xxx, name: xxx, schema: n, edges: 1},
+ *        { fqn: t.yyy, name: yyy, schema: t, edges: 1},
+ *        ...
+ *    ],
+ *    links: [
+ *        { source: n.xxx, target: t.yyy },
+ *        ...
+ *    ]
  * }
+ *
+ * The key "fqn" in the nodes element of the above map refers to
+ * "fully qualified name", which refers to the combination of
+ * the schema and the table name.
  */
 const parse = records => {
   const nodes = {};
   const links = [];
-  // a Map of the form: source => Set(targets)
+  // a Map of the form: fqn => Set(target_fqns)
   const seen = new Map();
+  // a helper method to detect and eliminate duplicate records in the input.
   const wasSeenBefore = (source, target) => {
     if (!seen.has(source)) {
       // first time this source has been seen: initialize!
@@ -32,11 +44,13 @@ const parse = records => {
     return false;
   };
 
-  records.forEach(record => {
-    const { source, target } = record;
-    if (!nodes[source]) {
-      nodes[source] = {
+  records.forEach(({ source, sourceSchema, target, targetSchema }) => {
+    const sourceFqn = `${sourceSchema}.${source}`;
+    if (!nodes[sourceFqn]) {
+      nodes[sourceFqn] = {
+        fqn: sourceFqn,
         name: source,
+        schema: sourceSchema,
         edges: 0,
       };
     }
@@ -45,20 +59,25 @@ const parse = records => {
       return;
     }
 
-    if (!nodes[target]) {
-      nodes[target] = {
+    // if target is present, it is assumed targetSchema is also present
+    const targetFqn = `${targetSchema}.${target}`;
+
+    if (!nodes[targetFqn]) {
+      nodes[targetFqn] = {
+        fqn: targetFqn,
         name: target,
+        schema: targetSchema,
         edges: 0,
       };
     }
 
-    if (wasSeenBefore(source, target)) {
+    if (wasSeenBefore(sourceFqn, targetFqn)) {
       return;
     }
 
-    nodes[source].edges += 1;
-    nodes[target].edges += 1;
-    links.push(record);
+    nodes[sourceFqn].edges += 1;
+    nodes[targetFqn].edges += 1;
+    links.push({ source: sourceFqn, target: targetFqn });
   });
   return {
     nodes: Object.values(nodes),

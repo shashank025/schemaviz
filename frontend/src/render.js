@@ -39,7 +39,7 @@ class SchemaRenderer {
         d3
           .forceLink(links)
           .distance(this.linkDistance)
-          .id(d => d.name)
+          .id(d => d.fqn)
       )
       .force("charge", d3.forceManyBody().strength(this.charge))
       .force("x", d3.forceX())
@@ -80,7 +80,7 @@ class SchemaRenderer {
     // add the nodes
     node.append("circle").attr("r", d => rscale(d.edges));
     // show name as text on hover
-    node.append("title").text(d => d.name);
+    node.append("title").text(d => d.fqn);
 
     simulation.on("tick", () => {
       path.attr("d", d => linkArc(d, rscale));
