@@ -31,9 +31,24 @@
   <br />
   <div class="flex-container">
     <div class="left-column">
-      <h3>Simulation Info</h3>
-      <div id="simulation_info">
-        Visualize to see info ...
+      <h3>Stats</h3>
+      <table class="schema-stats">
+        <tr>
+          <td class="schema-stat-name">Tables:</td>
+          <td id="table_count">NA</td>
+        </tr>
+        <tr>
+          <td class="schema-stat-name">Links:</td>
+          <td id="link_count">NA</td>
+        </tr>
+        <tr>
+          <td class="schema-stat-name">Schemas:</td>
+          <td id="schema_count">NA</td>
+        </tr>
+      </table>
+      <h3>Schemas</h3>
+      <!-- This will be updated with the schemas found -->
+      <div id="schemas">
       </div>
     </div>
     <svg class="right-column svg-content"></svg>

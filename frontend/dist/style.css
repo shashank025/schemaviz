@@ -77,6 +77,13 @@ form input {
 }
 
 /**
+ * Stats and schema info styling
+ */
+.schema-stat-name {
+  text-align: right;
+}
+
+/**
  * Simulation related styling.
  */
 .svg-content {

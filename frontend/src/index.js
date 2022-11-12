@@ -8,30 +8,17 @@ const API_ENDPOINT = "http://localhost:8000/dependencies";
 // entry-point
 main();
 
-const constructStatsHtml = ({ nodes, links }) => {
-  const n = nodes.length;
-  const e = links.length;
-  const s = [...new Set(nodes.map(n => n.schema))].length;
-  return `<table>
-    <tr><td>Tables:</td><td>${n}</td></tr>
-    <tr><td>Edges:</td><td>${e}</td></tr>
-    <tr><td>Schemas:</td><td>${s}</td></tr>
-  </table>`;
-};
-
 function main() {
   const visualizeButton = document.getElementById("myBtn");
   const uriTextBox = document.getElementById("connectionUri");
   const loadingIndicator = document.getElementById("loader");
   const chargeInput = document.getElementById("charge");
   const linkDistanceInput = document.getElementById("distance");
-  const simulationInfoElement = document.getElementById("simulation_info");
 
   const renderer = new SchemaRenderer(
     chargeInput.value,
     linkDistanceInput.value
   );
-  let downloadedSchema = null;
 
   // hide the loading indicator initially
   loadingIndicator.style.visibility = "hidden";
@@ -45,10 +32,7 @@ function main() {
       .then(response => response.json())
       .then(data => {
         loadingIndicator.style.visibility = "hidden";
-        downloadedSchema = data.dependencies;
-        const parsedSchema = parse(downloadedSchema);
-        simulationInfoElement.innerHTML = constructStatsHtml(parsedSchema);
-        renderer.updateSchema(parsedSchema);
+        setupAndRender(data.dependencies, renderer);
       })
       .catch(error => {
         loadingIndicator.style.visibility = "hidden";
@@ -76,5 +60,81 @@ function main() {
   // re-render (but dont re-download) when link distance is modified
   linkDistanceInput.addEventListener("change", e => {
     renderer.updateLinkDistance(e.target.value);
+  });
+}
+
+function setupAndRender(dependencies, renderer) {
+  const { nodes, links } = parse(dependencies);
+  const tableCountTd = document.getElementById("table_count");
+  tableCountTd.textContent = nodes.length;
+
+  const linkCountTd = document.getElementById("link_count");
+  linkCountTd.textContent = links.length;
+
+  const schemaSet = new Set(nodes.map(n => n.schema));
+
+  // this will track whether a given schema is selected
+  const schemaSelectionMap = new Map();
+  schemaSet.forEach(schema => {
+    schemaSelectionMap.set(schema, true);
+  });
+
+  const schemaCountTd = document.getElementById("schema_count");
+  schemaCountTd.textContent = schemaSet.size;
+
+  const schemaListingContainer = document.getElementById("schemas");
+  schemaSet.forEach(schema => {
+    const para = document.createElement("p");
+
+    const input = document.createElement("input");
+    input.setAttribute("type", "checkbox");
+    input.setAttribute("name", schema);
+    input.setAttribute("value", schema);
+    input.setAttribute("checked", true);
+    input.addEventListener("change", e => {
+      if (e.target.checked) {
+        schemaSelectionMap.set(schema, true);
+      } else {
+        schemaSelectionMap.set(schema, false);
+      }
+      // compute new dependency graph and render
+      const updatedDependencies = filterBySchema(
+        dependencies,
+        schemaSelectionMap
+      );
+      const updatedSchema = parse(updatedDependencies);
+      renderer.updateSchema(updatedSchema);
+    });
+
+    const label = document.createElement("label");
+    label.setAttribute("for", schema);
+    label.textContent = schema;
+
+    para.appendChild(input);
+    para.appendChild(label);
+
+    schemaListingContainer.appendChild(para);
+  });
+
+  // don't forget to do first-time render!
+  renderer.updateSchema({ nodes, links });
+}
+
+// select a dependency only if both its source and target schemas selected
+function filterBySchema(dependencies, schemaSelectionMap) {
+  return dependencies.filter(({ sourceSchema, targetSchema }) => {
+    if (!schemaSelectionMap.has(sourceSchema)) {
+      return false;
+    }
+    if (!schemaSelectionMap.get(sourceSchema)) {
+      return false;
+    }
+    if (!targetSchema) {
+      return false;
+    }
+    if (!schemaSelectionMap.has(targetSchema)) {
+      return false;
+    }
+    return schemaSelectionMap.get(targetSchema);
   });
 }
