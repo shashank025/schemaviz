@@ -1,18 +1,13 @@
+/**
+ * Normal HTML element styling.
+ */
 body {
   height: 100vh;
   font: 12px sans-serif;
 }
 
-path.link {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1.5px;
-}
-
-circle {
-  fill: #ccc;
-  stroke: #111;
-  stroke-width: 1.5px;
+h1 {
+  font: 36px sans-serif;
 }
 
 text {
@@ -21,10 +16,9 @@ text {
   pointer-events: none;
 }
 
-h1 {
-  font: 36px sans-serif;
-}
-
+/**
+ * Form styling.
+ */
 form {
   padding: 4px;
   display: table;
@@ -47,6 +41,20 @@ form input {
   margin: 4px;
 }
 
+/**
+ * Loader.
+ */
+.loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px;
+  background-color: gold;
+}
+
+/**
+ * Simulation related styling.
+ */
 .svg-content {
   border: solid 4px rgba(141, 142, 145, 0.4);
   font: 12px sans-serif;
@@ -54,10 +62,14 @@ form input {
   height: 90vh;
 }
 
-.loader {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px;
-  background-color: gold;
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #111;
+  stroke-width: 1.5px;
 }
