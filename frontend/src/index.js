@@ -65,14 +65,7 @@ function main() {
 
 function setupAndRender(dependencies, renderer) {
   const { nodes, links } = parse(dependencies);
-  const tableCountTd = document.getElementById("table_count");
-  tableCountTd.textContent = nodes.length;
-
-  const linkCountTd = document.getElementById("link_count");
-  linkCountTd.textContent = links.length;
-
   const schemaSet = new Set(nodes.map(n => n.schema));
-
   // this will track whether a given schema is selected
   const schemaSelectionMap = new Map();
   schemaSet.forEach(schema => {
@@ -80,8 +73,16 @@ function setupAndRender(dependencies, renderer) {
     schemaSelectionMap.set(schema, true);
   });
 
-  const schemaCountTd = document.getElementById("schema_count");
-  schemaCountTd.textContent = schemaSet.size;
+  document.getElementById("table_count").textContent = nodes.length;
+  document.getElementById("link_count").textContent = links.length;
+  document.getElementById("schema_count").textContent = schemaSet.size;
+
+  const recomputeSchema = () => {
+    const updatedDependencies = dependencies.filter(dependency =>
+      areSchemasSelected(dependency, schemaSelectionMap)
+    );
+    return parse(updatedDependencies);
+  };
 
   const schemaListingContainer = document.getElementById("schemas");
   schemaSet.forEach(schema => {
@@ -89,11 +90,7 @@ function setupAndRender(dependencies, renderer) {
 
     const input = constructInput(schema, e => {
       schemaSelectionMap.set(schema, e.target.checked);
-      const updatedDependencies = dependencies.filter(dependency =>
-        areSchemasSelected(dependency, schemaSelectionMap)
-      );
-      const updatedSchema = parse(updatedDependencies);
-      renderer.updateSchema(updatedSchema);
+      renderer.updateSchema(recomputeSchema());
     });
     const label = constructLabel(schema);
 
