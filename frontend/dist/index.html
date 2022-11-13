@@ -10,17 +10,9 @@
   <h1>Visualize your Database Schema</h1>
   <form>
     <p>
-      <label for="connectionUri">Database Connection URI:</label>
+      <label for="connectionUri">Database URI:</label>
       <input type="text" name="connectionUri" id="connectionUri" size="80" autofocus
         placeholder="e.g. postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs" />
-    </p>
-    <p>
-      <label for="charge">Particle charge:</label>
-      <input type="number" name="charge" id="charge" size="80" value="-250" />
-    </p>
-    <p>
-      <label for="distance">Link Distance:</label>
-      <input type="number" name="distance" id="distance" size="80" value="30" min="1" />
     </p>
     <p>
       <label for="myBtn"></label>
@@ -31,7 +23,18 @@
   <br />
   <div class="flex-container">
     <div class="left-column">
-      <h3>Stats</h3>
+      <h3>Visualization Settings</h3>
+      <form>
+        <p>
+          <label for="charge">Particle charge:</label>
+          <input type="number" name="charge" id="charge" size="10" value="-80" />
+        </p>
+        <p>
+          <label for="distance">Link Distance:</label>
+          <input type="number" name="distance" id="distance" size="10" value="35" min="1" />
+        </p>
+      </form>
+      <h3>Database Stats</h3>
       <table class="schema-stats">
         <tr>
           <td class="schema-stat-name">Tables:</td>
