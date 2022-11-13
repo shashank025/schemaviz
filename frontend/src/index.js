@@ -121,6 +121,7 @@ function constructInput(schema, changeListener) {
 function constructLabel(schema) {
   const label = document.createElement("label");
   label.setAttribute("for", schema);
+  label.style.fontFamily = "monospace";
   label.textContent = schema;
   return label;
 }
