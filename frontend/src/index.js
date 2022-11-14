@@ -9,9 +9,11 @@ const API_ENDPOINT = "http://localhost:8000/dependencies";
 main();
 
 function main() {
+  // hide the loading indicator initially
+  document.getElementById("loader").style.visibility = "hidden";
+
   const visualizeButton = document.getElementById("myBtn");
   const uriTextBox = document.getElementById("connectionUri");
-  const loadingIndicator = document.getElementById("loader");
   const chargeInput = document.getElementById("charge");
   const linkDistanceInput = document.getElementById("distance");
 
@@ -20,27 +22,9 @@ function main() {
     linkDistanceInput.value
   );
 
-  // hide the loading indicator initially
-  loadingIndicator.style.visibility = "hidden";
-
-  // when the "Visualize" button is clicked
-  visualizeButton.addEventListener("click", () => {
-    loadingIndicator.style.visibility = "visible";
-    const connUri = uriTextBox.value;
-    const encodedConnUri = encodeURIComponent(connUri);
-    fetch(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
-      .then(response => response.json())
-      .then(data => {
-        loadingIndicator.style.visibility = "hidden";
-        setupAndRender(data.dependencies, renderer);
-      })
-      .catch(error => {
-        loadingIndicator.style.visibility = "hidden";
-        // TODO: show nice error message
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
-  });
+  visualizeButton.addEventListener("click", () =>
+    onVisualize(uriTextBox.value, renderer)
+  );
 
   // when user presses "Enter" key with focus on the database uri form input
   uriTextBox.addEventListener("keypress", e => {
@@ -61,6 +45,25 @@ function main() {
   linkDistanceInput.addEventListener("change", e => {
     renderer.updateLinkDistance(e.target.value);
   });
+}
+
+function onVisualize(uriTextBoxValue, renderer) {
+  const loadingIndicator = document.getElementById("loader");
+  loadingIndicator.style.visibility = "visible";
+
+  const encodedConnUri = encodeURIComponent(uriTextBoxValue);
+  fetch(`${API_ENDPOINT}?connection_uri=${encodedConnUri}`)
+    .then(response => response.json())
+    .then(data => {
+      loadingIndicator.style.visibility = "hidden";
+      setupAndRender(data.dependencies, renderer);
+    })
+    .catch(error => {
+      loadingIndicator.style.visibility = "hidden";
+      // TODO: show nice error message
+      // eslint-disable-next-line no-console
+      console.log(error);
+    });
 }
 
 function setupAndRender(dependencies, renderer) {
@@ -104,6 +107,16 @@ function setupAndRender(dependencies, renderer) {
   renderer.updateSchema({ nodes, links });
 }
 
+// select a dependency only if both its source and target schemas selected
+function areSchemasSelected(dependency, schemaSelectionMap) {
+  const { sourceSchema, targetSchema } = dependency;
+  return (
+    schemaSelectionMap.get(sourceSchema) &&
+    targetSchema &&
+    schemaSelectionMap.get(targetSchema)
+  );
+}
+
 function constructInput(schema, changeListener) {
   const input = document.createElement("input");
   input.setAttribute("type", "checkbox");
@@ -121,14 +134,4 @@ function constructLabel(schema) {
   label.style.fontFamily = "monospace";
   label.textContent = schema;
   return label;
-}
-
-// select a dependency only if both its source and target schemas selected
-function areSchemasSelected(dependency, schemaSelectionMap) {
-  const { sourceSchema, targetSchema } = dependency;
-  return (
-    schemaSelectionMap.get(sourceSchema) &&
-    targetSchema &&
-    schemaSelectionMap.get(targetSchema)
-  );
 }
