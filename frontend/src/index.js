@@ -87,7 +87,11 @@ function setupAndRender(dependencies, renderer) {
     return parse(updatedDependencies);
   };
 
-  const schemaListingContainer = document.getElementById("schemas");
+  const schemaList = document.getElementById("schemas");
+  // without this, subsequent "Visualize" hits will result in duplicates
+  while (schemaList.firstChild) {
+    schemaList.removeChild(schemaList.firstChild);
+  }
   schemaSet.forEach(schema => {
     const para = document.createElement("p");
 
@@ -100,7 +104,7 @@ function setupAndRender(dependencies, renderer) {
     para.appendChild(input);
     para.appendChild(label);
 
-    schemaListingContainer.appendChild(para);
+    schemaList.appendChild(para);
   });
 
   // don't forget to do first-time render!
