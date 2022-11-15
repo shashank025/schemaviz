@@ -92,8 +92,9 @@ class SchemaRenderer {
       .selectAll(".node")
       .data(nodes)
       .join("g")
-      .attr("class", "node")
-      .call(drag(simulation));
+      .attr("class", "node");
+
+    node.call(drag(simulation));
 
     // add the nodes
     node.append("circle").attr("r", d => rscale(d.edges));
