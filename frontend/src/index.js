@@ -16,10 +16,23 @@ function main() {
   const uriTextBox = document.getElementById("connectionUri");
   const chargeInput = document.getElementById("charge");
   const linkDistanceInput = document.getElementById("distance");
+  const selectedTableContainer = document.getElementById("selected-table");
 
   const renderer = new SchemaRenderer(
     chargeInput.value,
-    linkDistanceInput.value
+    linkDistanceInput.value,
+    // eslint-disable-next-line no-console
+    (event, node) => {
+      // first, erase any contents within
+      while (selectedTableContainer.firstChild) {
+        selectedTableContainer.removeChild(selectedTableContainer.firstChild);
+      }
+      const t = document.createElement("table");
+      t.append(constructSelectedTableRow("Table:", node.name));
+      t.append(constructSelectedTableRow("Schema:", node.schema));
+      t.append(constructSelectedTableRow("Links:", node.edges));
+      selectedTableContainer.appendChild(t);
+    }
   );
 
   visualizeButton.addEventListener("click", () =>
@@ -45,6 +58,18 @@ function main() {
   linkDistanceInput.addEventListener("change", e => {
     renderer.updateLinkDistance(e.target.value);
   });
+}
+
+function constructSelectedTableRow(statName, statValue) {
+  const tr = document.createElement("tr");
+  const leftCell = document.createElement("td");
+  leftCell.classList.add("stat-name");
+  leftCell.textContent = statName;
+  tr.appendChild(leftCell);
+  const rightCell = document.createElement("td");
+  rightCell.textContent = statValue;
+  tr.appendChild(rightCell);
+  return tr;
 }
 
 function onVisualize(uriTextBoxValue, renderer) {

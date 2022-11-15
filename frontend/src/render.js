@@ -9,9 +9,10 @@ const MAX_RADIUS = 20;
 const ALPHA_TARGET = 0.3;
 
 class SchemaRenderer {
-  constructor(initialCharge, initialLinkDistance) {
+  constructor(initialCharge, initialLinkDistance, onNodeClicked) {
     this.charge = parseInt(initialCharge, 10);
     this.linkDistance = parseInt(initialLinkDistance, 10);
+    this.onNodeClicked = onNodeClicked;
     this.svg = getSvg();
   }
 
@@ -94,6 +95,8 @@ class SchemaRenderer {
       .join("g")
       .attr("class", "node");
 
+    const nodeClickHandler = this.onNodeClicked;
+    node.on("click", (event, datum) => nodeClickHandler(event, datum));
     node.call(drag(simulation));
 
     // add the nodes
